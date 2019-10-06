@@ -1,6 +1,6 @@
 import { Achievement } from "./entities/Achievement";
 import { createConnection, Connection } from "typeorm";
-import { Emporium } from '@xura/emporium';
+import { initEmporium, Emporium } from '@xura/emporium';
 
 const connect = (): Promise<Connection> => createConnection({
     type: "sqljs",
@@ -12,6 +12,8 @@ const connect = (): Promise<Connection> => createConnection({
     logging: ['query', 'schema'],
     synchronize: true
 });
+
+initEmporium();
 
 const data = (connection: Connection) => ({
     achievements: new Emporium<Achievement>(
