@@ -22,6 +22,7 @@
     "webpack-dev-server": "^3.8.1"
   },
   "dependencies": {
-    "@xura/emporium": "https://github.com/xura/emporium.git#0.0.14"
+    "@xura/emporium": "https://github.com/xura/emporium.git#0.0.14",
+    "typeorm": "^0.2.19"
   }
 }

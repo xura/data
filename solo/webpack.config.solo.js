@@ -3,7 +3,7 @@ const HTMLWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
-base.entry = path.resolve(__dirname, '../src/index.ts');
+base.entry = path.resolve(__dirname, 'index.ts');
 
 base.plugins = [
     ...base.plugins,
@@ -21,5 +21,7 @@ base.plugins = [
 base.optimization = {
     namedModules: true
 };
+
+base.externals = [];
 
 module.exports = base;
