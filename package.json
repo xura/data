@@ -4,7 +4,8 @@
   "main": "dist/main.js",
   "scripts": {
     "build": "npx webpack --config bridge/webpack.config.js",
-    "start": "webpack-dev-server --config bridge/webpack.config.js --port 8238"
+    "start": "webpack-dev-server --config bridge/webpack.config.js --port 8238",
+    "start:solo": "webpack-dev-server --config solo/webpack.config.solo.js --port 9000"
   },
   "repository": "https://github.com/xura/data.git",
   "author": "Joe Badaczewski <joe307bad@gmail.com>",
@@ -21,6 +22,6 @@
     "webpack-dev-server": "^3.8.1"
   },
   "dependencies": {
-    "@xura/emporium": "https://github.com/xura/emporium.git#0.0.6"
+    "@xura/emporium": "https://github.com/xura/emporium.git#0.0.14"
   }
 }

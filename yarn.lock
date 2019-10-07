@@ -230,9 +230,9 @@
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
 
-"@xura/emporium@https://github.com/xura/emporium.git#0.0.6":
+"@xura/emporium@https://github.com/xura/emporium.git#0.0.14":
   version "0.0.1"
-  resolved "https://github.com/xura/emporium.git#e8fe77a0fcae9526413e84fc8ba6ebe000d7e11e"
+  resolved "https://github.com/xura/emporium.git#5e0744a64876bc77b2810b7fe023aaf700d3164a"
   dependencies:
     "@types/async" "^3.0.2"
     async "^3.1.0"
