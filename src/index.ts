@@ -1,5 +1,5 @@
 import { Achievement } from "./entities/Achievement";
-import { createConnection, Connection, getConnectionManager, getConnection } from "typeorm";
+import { createConnection, Connection, getConnectionManager } from "typeorm";
 import { initEmporium, Emporium } from '@xura/emporium';
 
 const connect = (): Promise<Connection> =>
@@ -12,7 +12,7 @@ const connect = (): Promise<Connection> =>
         ],
         logging: ['query', 'schema'],
         synchronize: true
-    })
+    });
 
 initEmporium();
 
