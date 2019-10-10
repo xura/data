@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="670d2369-480a-4347-bce3-4c4549651dfc" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test.spect.ts" beforeDir="false" />
-    </list>
+    <list default="true" id="670d2369-480a-4347-bce3-4c4549651dfc" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,7 +46,7 @@
       <updated>1570549176167</updated>
       <workItem from="1570549177506" duration="12000" />
       <workItem from="1570654882932" duration="138000" />
-      <workItem from="1570712874942" duration="276000" />
+      <workItem from="1570712874942" duration="543000" />
     </task>
     <servers />
   </component>

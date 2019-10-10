@@ -30,4 +30,4 @@ describe('Xura | Data', () => {
     });
 
     afterEach(() => typeormMock.close())
-})
+});
