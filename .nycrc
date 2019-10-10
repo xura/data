@@ -5,7 +5,8 @@
                       "bridge/**",
                       "solo/**",
                       "**/*.d.ts",
-                      "**/*.spec.ts"
+                      "**/*.spec.ts",
+                      "coverage/**"
                     ],
     "branches": 80,
     "lines": 80,

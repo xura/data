@@ -42,9 +42,6 @@ describe('Xura | Data', () => {
 
         // Assert
         expect(connectionData).to.equal(fakeConnectionData);
-        // expect(await connection()).to.equal(fakeConnectionData);
-        // assert.calledOnce(typeormMock.stub);
-        // assert.calledOnce(typeormMock.stub.get);
 
     });
 
