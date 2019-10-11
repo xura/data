@@ -1,21 +1,25 @@
 image: node:latest
 
 stages:
-  - build
-  - test
+  - Build
+  - Test
 
 cache:
   paths:
     - node_modules/
 
-install_dependencies:
-  stage: build
+Install Dependencies:
+  stage: Build
   script:
     - yarn install
   artifacts:
     paths:
       - node_modules/
 
-testing_testing:
-  stage: test
+Unit Tests:
+  stage: Test
   script: yarn test
+
+Code Coverage:
+  stage: Test
+  script: npm run coverage
