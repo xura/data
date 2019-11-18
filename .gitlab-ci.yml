@@ -32,5 +32,5 @@ Deploy:
   script: 
     - docker login -u $REGISTRY_USER -p $REGISTRY_PW registry.xura.io
     - docker pull registry.xura.io/joe307bad/scripts:v0.0.13
-    - docker run -e NODE_ENV=production -e DIGITAL_OCEAN_ACCESS_KEY_ID=$DIGITAL_OCEAN_ACCESS_KEY_ID -e DIGITAL_OCEAN_SECRET_ACCESS_KEY=DIGITAL_OCEAN_ACCESS_KEY -v /tmp:/tmp -it hermes deploy --filePath /tmp/test.txt --fileName docker-test.txt
+    - docker run -e NODE_ENV=production -e DIGITAL_OCEAN_ACCESS_KEY_ID=$DIGITAL_OCEAN_ACCESS_KEY_ID -e DIGITAL_OCEAN_SECRET_ACCESS_KEY=$DIGITAL_OCEAN_ACCESS_KEY -v /tmp:/tmp -it hermes deploy --filePath /tmp/test.txt --fileName docker-test.txt
  
