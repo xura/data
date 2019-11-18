@@ -35,5 +35,5 @@ Deploy:
     - docker login -u $REGISTRY_USER -p $REGISTRY_PW registry.xura.io
   script:
     - docker pull $HERMES
-    - docker run -e NODE_ENV=production -e DIGITAL_OCEAN_ACCESS_KEY_ID=$DIGITAL_OCEAN_ACCESS_KEY_ID -e DIGITAL_OCEAN_SECRET_ACCESS_KEY=$DIGITAL_OCEAN_ACCESS_KEY -v /builds/$CI_PROJECT_PATH:/src $HERMES deploy --filePath /builds/$CI_PROJECT_PATH/index.d.ts --fileName deploy-test.txt
+    - docker run -e NODE_ENV=production -e DIGITAL_OCEAN_ACCESS_KEY_ID=$DIGITAL_OCEAN_ACCESS_KEY_ID -e DIGITAL_OCEAN_SECRET_ACCESS_KEY=$DIGITAL_OCEAN_ACCESS_KEY -v /builds/$CI_PROJECT_PATH:/src --entrypoint /bin/bash $HERMES ls /src
 
