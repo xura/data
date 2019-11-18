@@ -1,25 +1,36 @@
 image: node:latest
 
-stages:
-  - Build
-  - Test
+# stages:
+#   - Build
+#   - Test
+#   - Deploy
 
-cache:
-  paths:
-    - node_modules/
+# cache:
+#   paths:
+#     - node_modules/
 
-Install Dependencies:
-  stage: Build
-  script:
-    - yarn install
-  artifacts:
-    paths:
-      - node_modules/
+# Install Dependencies:
+#   stage: Build
+#   script:
+#     - yarn install
+#   artifacts:
+#     paths:
+#       - node_modules/
 
-Unit Tests:
-  stage: Test
-  script: yarn test
+# Unit Tests:
+#   stage: Test
+#   script: yarn test
 
-Code Coverage:
-  stage: Test
-  script: npm run coverage
+# Code Coverage:
+#   stage: Test
+#   script: npm run coverage
+  
+Deploy:
+  stage: Deploy
+  image: registry.xura.io/joe307bad/scripts:v0.0.13
+  environment:
+    DIGITAL_OCEAN_ACCESS_KEY: $DIGITAL_OCEAN_ACCESS_KEY
+    DIGITAL_OCEAN_SECRET_ACCESS_KEY: $DIGITAL_OCEAN_SECRET_ACCESS_KEY
+    NODE_ENV: production
+  script: deploy --filePath /tmp/test.txt --fileName docker-test.txt
+ 
