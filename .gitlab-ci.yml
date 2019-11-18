@@ -1,9 +1,9 @@
 image: node:latest
 
-# stages:
-#   - Build
-#   - Test
-#   - Deploy
+stages:
+  - Build
+  - Test
+  - Deploy
 
 # cache:
 #   paths:
