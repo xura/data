@@ -34,6 +34,6 @@ Deploy:
   script:
     - docker pull registry.xura.io/joe307bad/scripts:v0.0.13
     - docker run -e NODE_ENV=production -e DIGITAL_OCEAN_ACCESS_KEY_ID=$DIGITAL_OCEAN_ACCESS_KEY_ID -e DIGITAL_OCEAN_SECRET_ACCESS_KEY=$DIGITAL_OCEAN_ACCESS_KEY -v ./:/src -it hermes deploy --filePath /src/index.d.ts --fileName deploy-test.txt
- after_script:
+  after_script:
     - docker logout registry.gitlab.com
 
