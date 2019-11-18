@@ -25,12 +25,14 @@ stages:
 #   stage: Test
 #   script: npm run coverage
   
+variables:
+  DIGITAL_OCEAN_ACCESS_KEY: $DIGITAL_OCEAN_ACCESS_KEY
+  DIGITAL_OCEAN_SECRET_ACCESS_KEY: $DIGITAL_OCEAN_SECRET_ACCESS_KEY
+  NODE_ENV: production
+
 Deploy:
   stage: Deploy
   image: registry.xura.io/joe307bad/scripts:v0.0.13
   environment:
-    DIGITAL_OCEAN_ACCESS_KEY: $DIGITAL_OCEAN_ACCESS_KEY
-    DIGITAL_OCEAN_SECRET_ACCESS_KEY: $DIGITAL_OCEAN_SECRET_ACCESS_KEY
-    NODE_ENV: production
   script: deploy --filePath /tmp/test.txt --fileName docker-test.txt
  
