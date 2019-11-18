@@ -29,8 +29,7 @@ Deploy:
   stage: Deploy
   image: docker:18.09.7-dind
   environment:
-  before_script: 
-  
+  before_script:
     - docker login -u $REGISTRY_USER -p $REGISTRY_PW registry.xura.io
   script:
     - docker pull registry.xura.io/joe307bad/scripts:v0.0.13
