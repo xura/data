@@ -4,9 +4,6 @@ stages:
   - Build
   - Test
   - Deploy
-
-services:
-  - docker:dind
   
 # cache:
 #   paths:
@@ -29,14 +26,14 @@ services:
 #   script: npm run coverage
   
 variables:
-  MOUNT_POINT: /builds/$CI_PROJECT_PATH
+  HERMES: registry.xura.io/joe307bad/scripts:v0.0.13
 
 Deploy:
   stage: Deploy
-  #image: docker:18.09.7-dind
+  image: docker:18.09.7-dind
   before_script:
     - docker login -u $REGISTRY_USER -p $REGISTRY_PW registry.xura.io
   script:
-    - docker pull registry.xura.io/joe307bad/scripts:v0.0.13
-    - docker run -e NODE_ENV=production -e DIGITAL_OCEAN_ACCESS_KEY_ID=$DIGITAL_OCEAN_ACCESS_KEY_ID -e DIGITAL_OCEAN_SECRET_ACCESS_KEY=$DIGITAL_OCEAN_ACCESS_KEY -v /$CI_PROJECT_PATH:/src registry.xura.io/joe307bad/scripts:v0.0.13 deploy --filePath /src/index.d.ts --fileName deploy-test.txt
+    - docker pull $HERMES
+    - docker run -e NODE_ENV=production -e DIGITAL_OCEAN_ACCESS_KEY_ID=$DIGITAL_OCEAN_ACCESS_KEY_ID -e DIGITAL_OCEAN_SECRET_ACCESS_KEY=$DIGITAL_OCEAN_ACCESS_KEY -v /$CI_PROJECT_PATH:/src $HERMES deploy --filePath /src/index.d.ts --fileName deploy-test.txt
 
