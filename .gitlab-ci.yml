@@ -33,7 +33,7 @@ Deploy:
   image: docker:18.09.7-dind
   before_script:
     - ls /
-    - ls /build/joe307bad/scripts/
+    - ls /builds/joe307bad/scripts/
     - docker login -u $REGISTRY_USER -p $REGISTRY_PW registry.xura.io
   script:
     - docker pull $HERMES
