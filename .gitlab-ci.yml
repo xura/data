@@ -27,7 +27,7 @@ stages:
 
 Deploy:
   stage: Deploy
-  image: docker:dind
+  image: docker:18.09.7-dind
   environment:
   script: 
     - docker login -u $REGISTRY_USER -p $REGISTRY_PW registry.xura.io
