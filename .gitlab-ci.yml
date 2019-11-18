@@ -5,6 +5,9 @@ stages:
   - Test
   - Deploy
 
+services:
+  - docker:dind
+  
 # cache:
 #   paths:
 #     - node_modules/
@@ -24,14 +27,13 @@ stages:
 # Code Coverage:
 #   stage: Test
 #   script: npm run coverage
-
+  
 variables:
   MOUNT_POINT: /builds/$CI_PROJECT_PATH
 
 Deploy:
   stage: Deploy
-  image: docker:18.09.7-dind
-  environment:
+  #image: docker:18.09.7-dind
   before_script:
     - docker login -u $REGISTRY_USER -p $REGISTRY_PW registry.xura.io
   script:
