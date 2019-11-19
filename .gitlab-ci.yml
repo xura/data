@@ -11,6 +11,9 @@ cache:
 
 Install Dependencies:
   stage: Build
+  except:
+    variables:
+      - $CI_COMMIT_REF_NAME == "master"
   only:
     - branches
   script:
@@ -21,12 +24,18 @@ Install Dependencies:
 
 Unit Tests:
   stage: Test
+  except:
+    variables:
+      - $CI_COMMIT_REF_NAME == "master"
   only:
     - branches
   script: yarn test
 
 Code Coverage:
   stage: Test
+  except:
+    variables:
+      - $CI_COMMIT_REF_NAME == "master"
   only:
     - branches
   script: npm run coverage
@@ -36,27 +45,29 @@ variables:
 
 Build:
   stage: Build
+  except:
+    variables:
+      - $CI_COMMIT_REF_NAME == "master"
+  only:
+    - branches
   script:
     - yarn build
-  artifacts:
-    untracked: true
-    name: $DATA_BUILD
-    paths:
-      - bridge/build/
 
 Deploy Staging:
   type: deploy
   stage: Deploy Staging
+  variables:
+    DATA_BUILD: deploy/data-$CI_COMMIT_SHA
   only:
     variables:
       - $CI_COMMIT_REF_NAME == "master"
   only:
     - tags
-  dependencies:
-    - Build
   image: ruby:latest
   before_script:
+    - yarn build
+    - mkdir -p $DATA_BUILD
+    - mv bridge/build $DATA_BUILD
     - gem install dpl
-    - ls $DATA_BUILD
   script:
     - dpl --provider=s3 --access_key_id=$DIGITAL_OCEAN_ACCESS_KEY_ID --secret_access_key=$DIGITAL_OCEAN_SECRET_ACCESS_KEY --bucket=xura-cdn --region=sfo2 --endpoint=https://sfo2.digitaloceanspaces.com --local_dir=$DATA_BUILD/ --upload_dir=staging/ --acl=public_read
