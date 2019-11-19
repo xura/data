@@ -35,6 +35,7 @@ Deploy Staging:
   variables:
     VERSION: data-$CI_COMMIT_SHA
   before_script:
+    - ls
     - mv bridge/build /bridge/build-$VERSION
   script:
     - apt-get update -yq
