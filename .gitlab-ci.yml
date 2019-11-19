@@ -64,10 +64,10 @@ Deploy Staging:
   only:
     - tags
   image: starefossen/ruby-node:latest
-  before_script:
+  script:
     - yarn build
     - mkdir -p $DATA_BUILD
     - mv bridge/build $DATA_BUILD
+    - ls
     - gem install dpl
-  script:
-    - dpl --provider=s3 --access_key_id=$DIGITAL_OCEAN_ACCESS_KEY_ID --secret_access_key=$DIGITAL_OCEAN_SECRET_ACCESS_KEY --bucket=xura-cdn --region=sfo2 --endpoint=https://sfo2.digitaloceanspaces.com --local_dir=$DATA_BUILD/ --upload_dir=staging/ --acl=public_read
+    - dpl --provider=s3 --access_key_id=$DIGITAL_OCEAN_ACCESS_KEY_ID --secret_access_key=$DIGITAL_OCEAN_SECRET_ACCESS_KEY --bucket=xura-cdn --region=sfo2 --endpoint=https://sfo2.digitaloceanspaces.com --local_dir=deploy --upload_dir=staging --acl=public_read
