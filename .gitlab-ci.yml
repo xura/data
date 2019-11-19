@@ -57,7 +57,7 @@ Deploy Staging:
   type: deploy
   stage: Deploy Staging
   variables:
-    DATA_BUILD: deploy/data-$CI_COMMIT_SHA
+    DATA_BUILD: deploy/data/$CI_COMMIT_TAG
   only:
     variables:
       - $CI_COMMIT_REF_NAME == "master"
