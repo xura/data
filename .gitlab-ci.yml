@@ -11,6 +11,8 @@ cache:
 
 Install Dependencies:
   stage: Build
+  only:
+    - branches
   script:
     - yarn install
   artifacts:
@@ -19,14 +21,20 @@ Install Dependencies:
 
 Unit Tests:
   stage: Test
+  only:
+    - branches
   script: yarn test
 
 Code Coverage:
   stage: Test
+  only:
+    - branches
   script: npm run coverage
 
 Build:
   stage: Build
+  only:
+    - branches
   script:
     - yarn build
   artifacts:
