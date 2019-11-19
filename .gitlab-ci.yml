@@ -41,5 +41,4 @@ Deploy Staging:
     - apt-get update -yq
     - apt-get install -y ruby-dev
     - gem install dpl
-    - dpl --provider=s3 --access_key_id=$DIGITAL_OCEAN_ACCESS_KEY_ID --secret_access_key=$DIGITAL_OCEAN_ACCESS_KEY --bucket=xura-cdn --region=sfo2 --endpoint=https://sfo2.digitaloceanspaces.com --local_dir=/bridge --upload_dir
-=/staging --acl=public_read
+    - dpl --provider=s3 --access_key_id=$DIGITAL_OCEAN_ACCESS_KEY_ID --secret_access_key=$DIGITAL_OCEAN_ACCESS_KEY --bucket=xura-cdn --region=sfo2 --endpoint=https://sfo2.digitaloceanspaces.com --local_dir=/bridge --upload_dir=/staging --acl=public_read
