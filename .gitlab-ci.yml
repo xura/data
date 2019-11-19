@@ -29,13 +29,16 @@ Build:
   stage: Build
   script:
     - yarn build
+   artifacts:
+    paths:
+      - build/
 
 Deploy Staging:
   stage: Deploy
   variables:
     VERSION: data-$CI_COMMIT_SHA
   before_script:
-    - ls
+    - ls bridge/
     - mv bridge/build /bridge/build-$VERSION
   script:
     - apt-get update -yq
