@@ -41,6 +41,7 @@ Build:
       - bridge/build/
 
 Deploy Staging:
+  type: deploy
   stage: Deploy Staging
   only:
     variables:
