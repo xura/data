@@ -63,7 +63,7 @@ Deploy Staging:
       - $CI_COMMIT_REF_NAME == "master"
   only:
     - tags
-  image: ruby:latest
+  image: starefossen/ruby-node:latest
   before_script:
     - yarn build
     - mkdir -p $DATA_BUILD
