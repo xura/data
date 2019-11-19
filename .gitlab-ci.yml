@@ -24,16 +24,22 @@ stages:
 # Code Coverage:
 #   stage: Test
 #   script: npm run coverage
-  
-variables:
-  HERMES: registry.xura.io/joe307bad/scripts:v0.0.13
 
-Deploy:
+# Build:
+#   stage: Build
+#   script:
+#     - yarn build
+
+
+Deploy Staging:
   stage: Deploy
-  image: docker:18.09.7-dind
+  variables:
+    VERSION: data-$CI_COMMIT_SHA
   before_script:
-    - docker login -u $REGISTRY_USER -p $REGISTRY_PW registry.xura.io
+    - mv /bridge/build /bridge/build-$VERSION
   script:
-    - docker pull $HERMES
-    - docker run -e NODE_ENV=production --net=host --privileged -e DIGITAL_OCEAN_ACCESS_KEY_ID=$DIGITAL_OCEAN_ACCESS_KEY_ID -e DIGITAL_OCEAN_SECRET_ACCESS_KEY=$DIGITAL_OCEAN_ACCESS_KEY -v /builds/$CI_PROJECT_PATH:/src:rw $HERMES deploy --filePath /src/index.d.ts --fileName deploy-test1.txt
-
+    - apt-get update -yq
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - dpl --provider=s3 --access_key_id=$DIGITAL_OCEAN_ACCESS_KEY_ID --secret_access_key=$DIGITAL_OCEAN_ACCESS_KEY --bucket=xura-cdn --region=sfo2 --endpoint=https://sfo2.digitaloceanspaces.com --local_dir=/bridge --upload_dir
+=/staging --acl=public_read
