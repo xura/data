@@ -38,8 +38,7 @@ Deploy Staging:
   variables:
     VERSION: data-$CI_COMMIT_SHA
   before_script:
-    - ls bridge/
-    - mv bridge/build /bridge/build-$VERSION
+    - mv bridge/build bridge/build-$VERSION
   script:
     - apt-get update -yq
     - apt-get install -y ruby-dev
