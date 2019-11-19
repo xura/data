@@ -36,6 +36,7 @@ Build:
   script:
     - yarn build
   artifacts:
+    name: data-$CI_COMMIT_SHA
     paths:
       - bridge/build/
 
@@ -46,12 +47,11 @@ Deploy Staging:
       - $CI_COMMIT_REF_NAME == "master"
   only:
     - tags
-  variables:
-    VERSION: ./data/$CI_COMMIT_SHA
-  script:
-    - mkdir -p $VERSION
-    - mv bridge/build $VERSION
-    - apt-get update -yq
-    - apt-get install -y ruby-dev
+  dependencies:
+    - Build
+  image: ruby:latest
+  before_script:
     - gem install dpl
-    - dpl --provider=s3 --access_key_id=$DIGITAL_OCEAN_ACCESS_KEY_ID --secret_access_key=$DIGITAL_OCEAN_SECRET_ACCESS_KEY --bucket=xura-cdn --region=sfo2 --endpoint=https://sfo2.digitaloceanspaces.com --local_dir=$VERSION/ --upload_dir=staging/ --acl=public_read
+    - ls build
+  script:
+    - dpl --provider=s3 --access_key_id=$DIGITAL_OCEAN_ACCESS_KEY_ID --secret_access_key=$DIGITAL_OCEAN_SECRET_ACCESS_KEY --bucket=xura-cdn --region=sfo2 --endpoint=https://sfo2.digitaloceanspaces.com --local_dir=build/ --upload_dir=staging/ --acl=public_read
