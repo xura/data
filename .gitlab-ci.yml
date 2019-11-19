@@ -33,8 +33,6 @@ Code Coverage:
 
 Build:
   stage: Build
-  only:
-    - branches
   script:
     - yarn build
   artifacts:
