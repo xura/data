@@ -67,7 +67,7 @@ Deploy Staging:
   script:
     - yarn build
     - mkdir -p $DATA_BUILD
-    - mv bridge/build $DATA_BUILD
+    - cp -a bridge/build/data/. $DATA_BUILD
     - ls
     - ls deploy
     - gem install dpl
