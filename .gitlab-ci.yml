@@ -29,7 +29,7 @@ Build:
   stage: Build
   script:
     - yarn build
-   artifacts:
+  artifacts:
     paths:
       - bridge/build/
 
