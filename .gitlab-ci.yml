@@ -49,7 +49,7 @@ Deploy Staging:
   variables:
     VERSION: data/$CI_COMMIT_SHA
   script:
-    - mkdir $VERSION
+    - mkdir -p $VERSION
     - mv bridge/build $VERSION
     - apt-get update -yq
     - apt-get install -y ruby-dev
