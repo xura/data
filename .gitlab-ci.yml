@@ -49,9 +49,9 @@ Deploy Staging:
   variables:
     VERSION: data-$CI_COMMIT_SHA
   before_script:
-    - mv bridge/build bridge/$VERSION
+    - mv bridge/build bridge/build-$VERSION
   script:
     - apt-get update -yq
     - apt-get install -y ruby-dev
     - gem install dpl
-    - dpl --provider=s3 --access_key_id=$DIGITAL_OCEAN_ACCESS_KEY_ID --secret_access_key=$DIGITAL_OCEAN_SECRET_ACCESS_KEY --bucket=xura-cdn --region=sfo2 --endpoint=https://sfo2.digitaloceanspaces.com --local_dir=bridge/$VERSION --upload_dir=staging/data/$VERSION --acl=public_read
+    - dpl --provider=s3 --access_key_id=$DIGITAL_OCEAN_ACCESS_KEY_ID --secret_access_key=$DIGITAL_OCEAN_SECRET_ACCESS_KEY --bucket=xura-cdn --region=sfo2 --endpoint=https://sfo2.digitaloceanspaces.com --local_dir=bridge/build-$VERSION --upload_dir=staging/data/$VERSION --acl=public_read
