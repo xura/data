@@ -31,12 +31,16 @@ Code Coverage:
     - branches
   script: npm run coverage
 
+variables:
+  DATA_BUILD: data-$CI_COMMIT_SHA
+
 Build:
   stage: Build
   script:
     - yarn build
   artifacts:
-    name: data-$CI_COMMIT_SHA
+    untracked: true
+    name: $DATA_BUILD
     paths:
       - bridge/build/
 
@@ -53,6 +57,6 @@ Deploy Staging:
   image: ruby:latest
   before_script:
     - gem install dpl
-    - ls build
+    - ls $DATA_BUILD
   script:
-    - dpl --provider=s3 --access_key_id=$DIGITAL_OCEAN_ACCESS_KEY_ID --secret_access_key=$DIGITAL_OCEAN_SECRET_ACCESS_KEY --bucket=xura-cdn --region=sfo2 --endpoint=https://sfo2.digitaloceanspaces.com --local_dir=build/ --upload_dir=staging/ --acl=public_read
+    - dpl --provider=s3 --access_key_id=$DIGITAL_OCEAN_ACCESS_KEY_ID --secret_access_key=$DIGITAL_OCEAN_SECRET_ACCESS_KEY --bucket=xura-cdn --region=sfo2 --endpoint=https://sfo2.digitaloceanspaces.com --local_dir=$DATA_BUILD/ --upload_dir=staging/ --acl=public_read
