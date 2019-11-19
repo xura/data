@@ -1,29 +1,29 @@
-image: node:latest
+# image: node:latest
 
-stages:
-  - Build
-  - Test
-  - Deploy
+# stages:
+#   - Build
+#   - Test
+#   - Deploy
   
-cache:
-  paths:
-    - node_modules/
+# cache:
+#   paths:
+#     - node_modules/
 
-Install Dependencies:
-  stage: Build
-  script:
-    - yarn install
-  artifacts:
-    paths:
-      - node_modules/
+# Install Dependencies:
+#   stage: Build
+#   script:
+#     - yarn install
+#   artifacts:
+#     paths:
+#       - node_modules/
 
-Unit Tests:
-  stage: Test
-  script: yarn test
+# Unit Tests:
+#   stage: Test
+#   script: yarn test
 
-Code Coverage:
-  stage: Test
-  script: npm run coverage
+# Code Coverage:
+#   stage: Test
+#   script: npm run coverage
 
 Build:
   stage: Build
@@ -35,7 +35,7 @@ Deploy Staging:
   variables:
     VERSION: data-$CI_COMMIT_SHA
   before_script:
-    - mv /bridge/build /bridge/build-$VERSION
+    - mv bridge/build /bridge/build-$VERSION
   script:
     - apt-get update -yq
     - apt-get install -y ruby-dev
