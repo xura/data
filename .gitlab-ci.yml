@@ -9,6 +9,7 @@ stages:
 cache:
   paths:
     - node_modules/
+    - zod/
 
 Install Dependencies:
   stage: Build
@@ -45,7 +46,9 @@ Deploy Staging:
 
 Remove Old Deployments:
   stage: Zod
+  image: 
+    name: byrnedo/alpine-curl
+    entrypoint: [""]
   script:
-    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$REGISTRY_USER\",\"password\":\"$REGISTRY_PW\"}}}" > ~/.docker/config.json
-    - docker run -it registry.xura.io/joe307bad/scripts/v0.0.23 deploy:clean staging
-    
+    - curl -s -N https://cdn.xura.io/zod/zod.tar.gz -o /zod.tar.gz | tar -xf /zod.tar.gz -C /
+    - /zod/bin/zod deploy:clean staging    
