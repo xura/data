@@ -46,7 +46,7 @@ Deploy Staging:
 Remove Old Deployments:
   stage: Zod
   image: 
-    name: byrnedo/alpine-curl
+    name: ellerbrock/alpine-bash-curl-ssl
     entrypoint: [""]
   script:
     - curl -s -N https://cdn.xura.io/zod/zod.tar.gz -O
