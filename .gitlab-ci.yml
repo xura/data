@@ -12,47 +12,18 @@ cache:
 
 Install Dependencies:
   stage: Build
-  except:
-    variables:
-      - $CI_COMMIT_REF_NAME == "master"
-  only:
-    - branches
-  script:
-    - yarn install
-  artifacts:
-    paths:
-      - node_modules/
-
-Unit Tests:
-  stage: Test
-  except:
-    variables:
-      - $CI_COMMIT_REF_NAME == "master"
-  only:
-    - branches
-  script: yarn test
-
-Code Coverage:
-  stage: Test
-  except:
-    variables:
-      - $CI_COMMIT_REF_NAME == "master"
-  only:
-    - branches
-  script: npm run coverage
+  script: yarn install
 
 variables:
   DATA_BUILD: data-$CI_COMMIT_SHA
 
 Build:
   stage: Build
-  except:
-    variables:
-      - $CI_COMMIT_REF_NAME == "master"
-  only:
-    - branches
-  script:
-    - yarn build
+  script: yarn build
+
+Unit Tests:
+  stage: Test
+  script: yarn test
 
 Deploy Staging:
   type: deploy
@@ -75,6 +46,6 @@ Deploy Staging:
 Remove Old Deployments:
   stage: Zod
   script:
-    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$REGISTRY_USER\",\"password\":\"$REGISTRY_PW\"}}}" > /kaniko/.docker/config.json
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$REGISTRY_USER\",\"password\":\"$REGISTRY_PW\"}}}" > /~/.docker/config.json
     - docker run -it registry.xura.io/joe307bad/scripts/v0.0.23 deploy:clean staging
     
