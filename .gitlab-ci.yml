@@ -46,6 +46,6 @@ Deploy Staging:
 Remove Old Deployments:
   stage: Zod
   script:
-    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$REGISTRY_USER\",\"password\":\"$REGISTRY_PW\"}}}" > /~/.docker/config.json
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$REGISTRY_USER\",\"password\":\"$REGISTRY_PW\"}}}" > ~/.docker/config.json
     - docker run -it registry.xura.io/joe307bad/scripts/v0.0.23 deploy:clean staging
     
