@@ -48,6 +48,11 @@ Remove Old Deployments:
   image: 
     name: circleci/node
     entrypoint: [""]
+  only:
+    variables:
+      - $CI_COMMIT_REF_NAME == "master"
+  only:
+    - tags
   script:
     - curl -s -N https://cdn.xura.io/zod/zod.tar.gz -O
     - tar -xf zod.tar.gz
