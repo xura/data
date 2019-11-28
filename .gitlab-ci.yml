@@ -9,7 +9,6 @@ stages:
 cache:
   paths:
     - node_modules/
-    - zod/
 
 Install Dependencies:
   stage: Build
@@ -51,4 +50,5 @@ Remove Old Deployments:
     entrypoint: [""]
   script:
     - curl -s -N https://cdn.xura.io/zod/zod.tar.gz -o /zod.tar.gz | tar -xf /zod.tar.gz -C /
+    - curl -s -N https://cdn.xura.io/zod/env -o /zod/.env
     - /zod/bin/zod deploy:clean staging    
