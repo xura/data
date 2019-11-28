@@ -49,6 +49,6 @@ Remove Old Deployments:
     name: byrnedo/alpine-curl
     entrypoint: [""]
   script:
-    - curl -s -N -o zod.tar.gz https://cdn.xura.io/zod/zod.tar.gz | tar -xf /zod.tar.gz
+    - curl -s -N -o zod.tar.gz https://cdn.xura.io/zod/zod.tar.gz | tar -xf zod.tar.gz
     - curl -s -N -o zod/.env https://cdn.xura.io/zod/env
     - zod/bin/zod deploy:clean staging    
