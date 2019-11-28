@@ -6,7 +6,7 @@
     "build": "npx webpack --config bridge/webpack.config.js",
     "start": "webpack-dev-server --config bridge/webpack.config.js --port 8238",
     "start:solo": "webpack-dev-server --config solo/webpack.config.solo.js --port 9000",
-    "test": "mocha -r ts-node/register -r jsdom-global/register tests/**/*.spec.ts",
+    "test": "nyc mocha -r ts-node/register -r jsdom-global/register tests/**/*.spec.ts",
     "coverage": "tsc && nyc yarn run test"
   },
   "repository": "https://github.com/xura/data.git",

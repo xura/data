@@ -4,6 +4,7 @@ stages:
   - Build
   - Test
   - Deploy Staging
+  - Zod
   
 cache:
   paths:
@@ -11,47 +12,18 @@ cache:
 
 Install Dependencies:
   stage: Build
-  except:
-    variables:
-      - $CI_COMMIT_REF_NAME == "master"
-  only:
-    - branches
-  script:
-    - yarn install
-  artifacts:
-    paths:
-      - node_modules/
-
-Unit Tests:
-  stage: Test
-  except:
-    variables:
-      - $CI_COMMIT_REF_NAME == "master"
-  only:
-    - branches
-  script: yarn test
-
-Code Coverage:
-  stage: Test
-  except:
-    variables:
-      - $CI_COMMIT_REF_NAME == "master"
-  only:
-    - branches
-  script: npm run coverage
+  script: yarn install
 
 variables:
   DATA_BUILD: data-$CI_COMMIT_SHA
 
 Build:
   stage: Build
-  except:
-    variables:
-      - $CI_COMMIT_REF_NAME == "master"
-  only:
-    - branches
-  script:
-    - yarn build
+  script: yarn build
+
+Unit Tests:
+  stage: Test
+  script: yarn test
 
 Deploy Staging:
   type: deploy
@@ -70,3 +42,19 @@ Deploy Staging:
     - cp -a bridge/build/data/. $DATA_BUILD
     - gem install dpl
     - dpl --skip_cleanup --provider=s3 --access_key_id=$DIGITAL_OCEAN_ACCESS_KEY_ID --secret_access_key=$DIGITAL_OCEAN_SECRET_ACCESS_KEY --bucket=xura-cdn --region=sfo2 --endpoint=https://sfo2.digitaloceanspaces.com --local_dir=./deploy --upload_dir=staging --acl=public_read
+
+Remove Old Deployments:
+  stage: Zod
+  image: 
+    name: circleci/node
+    entrypoint: [""]
+  only:
+    variables:
+      - $CI_COMMIT_REF_NAME == "master"
+  only:
+    - tags
+  script:
+    - curl -s -N https://cdn.xura.io/zod/zod.tar.gz -O
+    - tar -xf zod.tar.gz
+    - curl -s -N -o zod/.env https://cdn.xura.io/zod/env
+    - zod/bin/zod deploy:clean staging    
