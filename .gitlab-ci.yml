@@ -72,9 +72,9 @@ Deploy Staging:
     - gem install dpl
     - dpl --skip_cleanup --provider=s3 --access_key_id=$DIGITAL_OCEAN_ACCESS_KEY_ID --secret_access_key=$DIGITAL_OCEAN_SECRET_ACCESS_KEY --bucket=xura-cdn --region=sfo2 --endpoint=https://sfo2.digitaloceanspaces.com --local_dir=./deploy --upload_dir=staging --acl=public_read
 
-  Remove Old Deployments:
-    stage: Zod
-    script:
-      - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$REGISTRY_USER\",\"password\":\"$REGISTRY_PW\"}}}" > /kaniko/.docker/config.json
-      - docker run -it registry.xura.io/joe307bad/scripts/v0.0.23 deploy:clean staging
+Remove Old Deployments:
+  stage: Zod
+  script:
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$REGISTRY_USER\",\"password\":\"$REGISTRY_PW\"}}}" > /kaniko/.docker/config.json
+    - docker run -it registry.xura.io/joe307bad/scripts/v0.0.23 deploy:clean staging
     
