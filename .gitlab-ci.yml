@@ -9,6 +9,7 @@ stages:
 cache:
   paths:
     - node_modules/
+    - zod/
 
 Install Dependencies:
   stage: Build
