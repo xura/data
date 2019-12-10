@@ -40,14 +40,31 @@ Deploy Staging:
   script:
     - yarn build
     - mkdir -p $DATA_BUILD
+    - cp solo/index.html $DATA_BUILD
     - cp -a bridge/build/data/. $DATA_BUILD
     - gem install dpl
     - dpl --skip_cleanup --provider=s3 --access_key_id=$DIGITAL_OCEAN_ACCESS_KEY_ID --secret_access_key=$DIGITAL_OCEAN_SECRET_ACCESS_KEY --bucket=xura-cdn --region=sfo2 --endpoint=https://sfo2.digitaloceanspaces.com --local_dir=./deploy --upload_dir=staging --acl=public_read
 
+Create Staging URL:
+  stage: Zod
+  image: 
+    name: xuraio/node-ansible
+    entrypoint: [""]
+  only:
+    variables:
+      - $CI_COMMIT_REF_NAME == "master"
+  only:
+    - tags
+  script:
+    - curl -s -N https://cdn.xura.io/zod/zod.tar.gz -O
+    - tar -xf zod.tar.gz
+    - curl -s -N -o zod/.env https://cdn.xura.io/zod/env
+    - zod/bin/zod deploy:create $CI_COMMIT_TAG
+
 Remove Old Deployments:
   stage: Zod
   image: 
-    name: circleci/node
+    name: xuraio/node-ansible
     entrypoint: [""]
   only:
     variables:
