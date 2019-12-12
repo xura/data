@@ -8,7 +8,7 @@ stages:
 #   - Zod
 
 Troubleshooting:
-  stage: Zod
+  stage: Troubleshooting
   image: 
     name: xuraio/node-ansible
   script:
