@@ -16,7 +16,7 @@ Troubleshooting:
     - tar -xf zod.tar.gz
     - curl -s -N -o zod/.env https://cdn.xura.io/zod/env
     - curl -s -N https://cdn.xura.io/zod/ansible.tar.gz -O
-    - tar -xf ansible.tar.gz -C zod/lib/core/ansible
+    - tar -xf ansible.tar.gz -C zod/lib/core
     - ls zod/lib/core
     - ls zod/lib/core/ansible
     - zod/bin/zod deploy:create v0.0.28
