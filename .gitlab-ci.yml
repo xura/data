@@ -3,7 +3,7 @@ image: node:latest
 stages:
   - Build
   - Test
-  - Deploy Staging
+  - Upload assets
   - Zod
   
 cache:
@@ -26,9 +26,9 @@ Unit Tests:
   stage: Test
   script: yarn test
 
-Deploy Staging:
+Upload assets to CDN:
   type: deploy
-  stage: Deploy Staging
+  stage: Upload assets
   variables:
     DATA_BUILD: deploy/data/$CI_COMMIT_TAG
   only:
