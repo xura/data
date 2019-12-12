@@ -12,9 +12,7 @@ Troubleshooting:
   image: 
     name: xuraio/node-ansible
   script:
-    - cat $ANSIBLE_INVENTORY
-    - echo $ANSIBLE_PRIVATE_KEY
-    - ansible-playbook --version
+    - /bin/sh -c ls
 
 # cache:
 #   paths:
