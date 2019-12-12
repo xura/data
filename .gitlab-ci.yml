@@ -12,7 +12,7 @@ Troubleshooting:
   image: 
     name: xuraio/node-ansible
   script:
-    - echo $ANSIBLE_INVENTORY
+    - cat $ANSIBLE_INVENTORY
     - echo $ANSIBLE_PRIVATE_KEY
     - ansible-playbook --version
 
