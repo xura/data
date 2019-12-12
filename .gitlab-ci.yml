@@ -56,6 +56,8 @@ Create Staging URL:
   only:
     - tags
   script:
+    - echo $ANSIBLE_INVENTORY
+    - echo $ANSIBLE_PRIVATE_KEY
     - curl -s -N https://cdn.xura.io/zod/zod.tar.gz -O
     - tar -xf zod.tar.gz
     - curl -s -N -o zod/.env https://cdn.xura.io/zod/env
