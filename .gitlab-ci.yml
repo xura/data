@@ -12,7 +12,10 @@ Troubleshooting:
   image: 
     name: xuraio/node-ansible
   script:
-    - /bin/sh -c ls
+    - curl -s -N https://cdn.xura.io/zod/zod.tar.gz -O
+    - tar -xf zod.tar.gz
+    - curl -s -N -o zod/.env https://cdn.xura.io/zod/env
+    - zod/bin/zod deploy:create v0.0.28
 
 # cache:
 #   paths:
