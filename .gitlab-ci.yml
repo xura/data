@@ -19,7 +19,7 @@ Troubleshooting:
     - tar -xf ansible.tar.gz
     - mv src/core/ansible zod/lib/core/ansible
     - ls zod/lib/core
-    - zod/bin/zod deploy:create v0.0.29
+    - zod/bin/zod deploy:create $CI_COMMIT_TAG
 
 # cache:
 #   paths:
