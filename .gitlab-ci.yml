@@ -12,16 +12,11 @@ Troubleshooting:
   image: 
     name: xuraio/node-ansible
   before_script:
-    - 'which ssh-agent || ( apk --update add openssh-client )'
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
     - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
     - mkdir -p ~/.ssh
-    - echo "$ANSIBLE_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
-    - chmod 700 ~/.ssh/id_rsa
-    - eval "$(ssh-agent -s)"
-    - ssh-add ~/.ssh/id_rsa
-    - ssh-keyscan -H '208.68.39.237' >> ~/.ssh/known_hosts
-    - ssh-keyscan 208.68.39.237 | sort -u - ~/.ssh/known_hosts -o ~/.ssh/known_hosts
-    - '[[ -f /.dockerinit ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - chmod 700 ~/.ssh
   script:
     - curl -s -N https://cdn.xura.io/zod/zod.tar.gz -O
     - tar -xf zod.tar.gz
