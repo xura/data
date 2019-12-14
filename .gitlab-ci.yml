@@ -1,5 +1,4 @@
 image: node:latest
-include: 'https://gitlab.com/x4v13r/gitlab-ci/raw/master/ssh.yml'
 
 stages:
   - Troubleshooting
@@ -12,6 +11,7 @@ Troubleshooting:
   stage: Troubleshooting
   image: 
     name: xuraio/node-ansible
+  include: 'https://gitlab.com/x4v13r/gitlab-ci/raw/master/ssh.yml'
   before_script:
     - ssh_run "root" "208.68.39.237" "$ANSIBLE_PRIVATE_KEY" "rm -rf .cache"
   script:
