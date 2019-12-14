@@ -11,8 +11,13 @@ Troubleshooting:
   stage: Troubleshooting
   image: 
     name: xuraio/node-ansible
+  before_script:
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+    - eval $(ssh-agent -s)
+    - echo "$ANSIBLE_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
   script:
-    - chmod 400 $ANSIBLE_PRIVATE_KEY
     - curl -s -N https://cdn.xura.io/zod/zod.tar.gz -O
     - tar -xf zod.tar.gz
     - curl -s -N -o zod/.env https://cdn.xura.io/zod/env
