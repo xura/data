@@ -1,19 +1,61 @@
 image: node:latest
 
 stages:
-  - Troubleshooting
-#   - Build
-#   - Test
-#   - Upload assets
-#   - Zod
+  - Build
+  - Test
+  - Upload assets
+  - Zod
 
-Troubleshooting:
-  stage: Troubleshooting
+cache:
+  paths:
+    - node_modules/
+    - zod/
+
+Install Dependencies:
+  stage: Build
+  script: yarn install
+
+variables:
+  DATA_BUILD: data-$CI_COMMIT_SHA
+
+Build:
+  stage: Build
+  script: yarn build
+
+Unit Tests:
+  stage: Test
+  script: yarn test
+
+Upload assets to CDN:
+  type: deploy
+  stage: Upload assets
+  variables:
+    DATA_BUILD: deploy/data/$CI_COMMIT_TAG
+  only:
+    variables:
+      - $CI_COMMIT_REF_NAME == "master"
+  only:
+    - tags
+  image: starefossen/ruby-node:latest
+  script:
+    - yarn build
+    - mkdir -p $DATA_BUILD
+    - cp solo/index.html $DATA_BUILD
+    - cp -a bridge/build/data/. $DATA_BUILD
+    - gem install dpl
+    - dpl --skip_cleanup --provider=s3 --access_key_id=$DIGITAL_OCEAN_ACCESS_KEY_ID --secret_access_key=$DIGITAL_OCEAN_SECRET_ACCESS_KEY --bucket=xura-cdn --region=sfo2 --endpoint=https://sfo2.digitaloceanspaces.com --local_dir=./deploy --upload_dir=staging --acl=public_read
+
+Create Staging URL:
+  stage: Zod
   image: 
     name: xuraio/node-ansible
+  only:
+    variables:
+      - $CI_COMMIT_REF_NAME == "master"
+  only:
+    - tags
   before_script:
     - mkdir -p ~/.ssh
-    # Paste the PRIVATE key into a gitlab variable. Pay attention to the linebreak at the end when pasting
     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
     - chmod 600 ~/.ssh/id_rsa
     - eval "$(ssh-agent -s)"
@@ -29,75 +71,17 @@ Troubleshooting:
     - ls zod/lib/core
     - zod/bin/zod deploy:create $CI_COMMIT_TAG
 
-# cache:
-#   paths:
-#     - node_modules/
-#     - zod/
-
-# Install Dependencies:
-#   stage: Build
-#   script: yarn install
-
-# variables:
-#   DATA_BUILD: data-$CI_COMMIT_SHA
-
-# Build:
-#   stage: Build
-#   script: yarn build
-
-# Unit Tests:
-#   stage: Test
-#   script: yarn test
-
-# Upload assets to CDN:
-#   type: deploy
-#   stage: Upload assets
-#   variables:
-#     DATA_BUILD: deploy/data/$CI_COMMIT_TAG
-#   only:
-#     variables:
-#       - $CI_COMMIT_REF_NAME == "master"
-#   only:
-#     - tags
-#   image: starefossen/ruby-node:latest
-#   script:
-#     - yarn build
-#     - mkdir -p $DATA_BUILD
-#     - cp solo/index.html $DATA_BUILD
-#     - cp -a bridge/build/data/. $DATA_BUILD
-#     - gem install dpl
-#     - dpl --skip_cleanup --provider=s3 --access_key_id=$DIGITAL_OCEAN_ACCESS_KEY_ID --secret_access_key=$DIGITAL_OCEAN_SECRET_ACCESS_KEY --bucket=xura-cdn --region=sfo2 --endpoint=https://sfo2.digitaloceanspaces.com --local_dir=./deploy --upload_dir=staging --acl=public_read
-
-# Create Staging URL:
-#   stage: Zod
-#   image: 
-#     name: xuraio/node-ansible
-#     entrypoint: [""]
-#   only:
-#     variables:
-#       - $CI_COMMIT_REF_NAME == "master"
-#   only:
-#     - tags
-#   script:
-#     - echo $ANSIBLE_INVENTORY
-#     - echo $ANSIBLE_PRIVATE_KEY
-#     - curl -s -N https://cdn.xura.io/zod/zod.tar.gz -O
-#     - tar -xf zod.tar.gz
-#     - curl -s -N -o zod/.env https://cdn.xura.io/zod/env
-#     - zod/bin/zod deploy:create $CI_COMMIT_TAG
-
-# Remove Old Deployments:
-#   stage: Zod
-#   image: 
-#     name: xuraio/node-ansible
-#     entrypoint: [""]
-#   only:
-#     variables:
-#       - $CI_COMMIT_REF_NAME == "master"
-#   only:
-#     - tags
-#   script:
-#     - curl -s -N https://cdn.xura.io/zod/zod.tar.gz -O
-#     - tar -xf zod.tar.gz
-#     - curl -s -N -o zod/.env https://cdn.xura.io/zod/env
-#     - zod/bin/zod deploy:clean staging    
+Remove Old Deployments:
+  stage: Zod
+  image: 
+    name: xuraio/node-ansible
+  only:
+    variables:
+      - $CI_COMMIT_REF_NAME == "master"
+  only:
+    - tags
+  script:
+    - curl -s -N https://cdn.xura.io/zod/zod.tar.gz -O
+    - tar -xf zod.tar.gz
+    - curl -s -N -o zod/.env https://cdn.xura.io/zod/env
+    - zod/bin/zod deploy:clean staging    
