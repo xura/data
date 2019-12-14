@@ -12,6 +12,7 @@ Troubleshooting:
   image: 
     name: xuraio/node-ansible
   script:
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
     - curl -s -N https://cdn.xura.io/zod/zod.tar.gz -O
     - tar -xf zod.tar.gz
     - curl -s -N -o zod/.env https://cdn.xura.io/zod/env
