@@ -12,11 +12,13 @@ Troubleshooting:
   image: 
     name: xuraio/node-ansible
   before_script:
-    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
-    - eval $(ssh-agent -s)
-    - echo "$ANSIBLE_PRIVATE_KEY" | tr -d '\r' | ssh-add -
     - mkdir -p ~/.ssh
-    - chmod 700 ~/.ssh
+    # Paste the PRIVATE key into a gitlab variable. Pay attention to the linebreak at the end when pasting
+    - echo "$ANSIBLE_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - eval "$(ssh-agent -s)"
+    - ssh-add ~/.ssh/id_rsa
+    - ssh-keyscan -H '208.68.39.237' >> ~/.ssh/known_hosts
   script:
     - curl -s -N https://cdn.xura.io/zod/zod.tar.gz -O
     - tar -xf zod.tar.gz
