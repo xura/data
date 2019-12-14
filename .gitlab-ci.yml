@@ -1,4 +1,5 @@
 image: node:latest
+include: 'https://gitlab.com/x4v13r/gitlab-ci/raw/master/ssh.yml'
 
 stages:
   - Troubleshooting
@@ -12,12 +13,7 @@ Troubleshooting:
   image: 
     name: xuraio/node-ansible
   before_script:
-    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
-    - eval $(ssh-agent -s)
-    - mkdir -p ~/.ssh
-    - chmod 700 ~/.ssh
-    - echo "$ANSIBLE_PRIVATE_KEY" | ssh-add - > ~/.ssh/id_rsa
-    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - ssh_run "root" "208.68.39.237" "$ANSIBLE_PRIVATE_KEY" "rm -rf .cache"
   script:
     - curl -s -N https://cdn.xura.io/zod/zod.tar.gz -O
     - tar -xf zod.tar.gz
