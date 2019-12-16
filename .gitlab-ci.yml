@@ -64,11 +64,10 @@ Create Staging URL:
   script:
     - curl -s -N https://cdn.xura.io/zod/zod.tar.gz -O
     - tar -xf zod.tar.gz
-    - curl -s -N -o zod/.env https://cdn.xura.io/zod/env
     - curl -s -N https://cdn.xura.io/zod/ansible.tar.gz -O
     - tar -xf ansible.tar.gz
+    - curl -s -N -o zod/.env https://cdn.xura.io/zod/env
     - mv src/core/ansible zod/lib/core/ansible
-    - ls zod/lib/core
     - zod/bin/zod deploy:create $CI_COMMIT_TAG
 
 Remove Old Deployments:
