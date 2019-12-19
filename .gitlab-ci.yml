@@ -67,6 +67,7 @@ Create Staging URL:
     - curl -s -N https://cdn.xura.io/zod/ansible.tar.gz -O
     - tar -xf ansible.tar.gz
     - curl -s -N -o zod/.env https://cdn.xura.io/zod/env
+    - rm -rf zod/lib/core/ansible
     - mv src/core/ansible zod/lib/core/ansible
     - zod/bin/zod deploy:create $CI_COMMIT_TAG
 
@@ -90,4 +91,4 @@ Remove Old Deployments:
     - curl -s -N https://cdn.xura.io/zod/zod.tar.gz -O
     - tar -xf zod.tar.gz
     - curl -s -N -o zod/.env https://cdn.xura.io/zod/env
-    - zod/bin/zod deploy:clean staging 3    
+    - zod/bin/zod deploy:clean staging    
