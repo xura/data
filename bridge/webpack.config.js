@@ -42,6 +42,7 @@ module.exports = {
     },
     devtool: 'source-map',
     externals: [
-        /^rxjs$/
+        /^rxjs$/,
+        /^@xura\/emporium$/
     ],
 };
