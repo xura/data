@@ -1,4 +1,5 @@
 import { Achievement } from "./entities/Achievement";
+import { User } from "./entities/User";
 import { createConnection, Connection, getConnectionManager } from "typeorm";
 import { initEmporium, Emporium } from '@xura/emporium';
 
@@ -20,6 +21,10 @@ const connection = () => getConnectionManager().get("default");
 
 const data = {
     achievements: new Emporium<Achievement>(
+        connection,
+        Achievement
+    ),
+    users: new Emporium<User>(
         connection,
         Achievement
     )
