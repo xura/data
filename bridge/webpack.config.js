@@ -3,7 +3,7 @@ const webpack = require("webpack");
 const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-    entry: './src/index.ts',
+    entry: './src/index.js',
     output: {
         filename: 'data.js',
         path: path.resolve(__dirname, 'build/data'),
@@ -38,7 +38,7 @@ module.exports = {
             __dirname,
             'node_modules',
         ],
-        extensions: ['.tsx', '.ts', '.js']
+        extensions: ['.tsx', '.ts', '.js', '.jsx']
     },
     devtool: 'source-map',
     externals: [
