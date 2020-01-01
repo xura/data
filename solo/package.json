@@ -16,8 +16,9 @@
   },
   "scripts": {
     "kill": "lsof -ti :8230-9000 | xargs kill -9",
-    "start": "yarn kill && concurrently --kill-others --kill-others-on-fail -p name --names \"data,components\" \"yarn start:solo\" \"npm run start --prefix ../../components\"",
-    "start:solo": "webpack-dev-server --mode=development --progress --config ./webpack.config.ts"
+    "start": "yarn kill && concurrently --kill-others --kill-others-on-fail -p name --names \"solo,components,data,emporium\" \"yarn start:solo\" \"yarn --cwd ../../components start\" \"yarn start:data\" \"yarn --cwd ../../emporium start\"",
+    "start:solo": "webpack-dev-server --mode=development --config ./webpack.config.ts --port 9000",
+    "start:data": "webpack-dev-server --mode=development --config ../bridge/webpack.config.js --port 8238"
   },
   "jest": {
     "moduleFileExtensions": [
@@ -32,18 +33,27 @@
   },
   "devDependencies": {
     "@babel/core": "7.7.2",
+    "@babel/plugin-proposal-class-properties": "^7.7.4",
+    "@babel/preset-env": "^7.7.7",
+    "@babel/preset-react": "^7.7.4",
+    "@babel/preset-typescript": "^7.7.7",
     "@types/webpack": "4.41.0",
     "@types/webpack-dev-server": "3.1.7",
+    "@xura/components": "git+https://git@github.com/xura/components",
+    "@xura/data": "git+https://git@github.com/xura/data",
     "babel-loader": "8.0.6",
+    "babel-preset-preact": "^2.0.0",
     "concurrently": "^5.0.2",
+    "copy-webpack-plugin": "^5.1.1",
     "html-webpack-plugin": "3.2.0",
+    "reflect-metadata": "^0.1.13",
+    "sqljs": "^0.0.0-6",
     "ts-loader": "6.2.1",
     "ts-node": "8.5.4",
     "typescript": "3.7.4",
     "webpack": "4.41.4",
-    "webpack-cli": "3.3.10",
-    "webpack-dev-server": "3.8.0",
-    "@xura/components": "git+https://git@github.com/xura/components"
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "3.8.0"
   },
   "dependencies": {
     "preact": "8.5.2",

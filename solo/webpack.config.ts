@@ -1,6 +1,7 @@
 import * as webpack from 'webpack';
 import { resolve, join } from 'path';
 import * as HtmlWebpackPlugin from 'html-webpack-plugin';
+import * as CopyWebpackPlugin from 'copy-webpack-plugin';
 import * as path from 'path'
 
 const { HotModuleReplacementPlugin } = webpack;
@@ -12,42 +13,59 @@ interface WebpackEnvironment {
 }
 
 module.exports = (env: WebpackEnvironment, argv: { mode: string }) => {
-  const appEntryPoints = argv.mode === 'production'
-    ? ['./index']
-    : [
-      'webpack/hot/only-dev-server',
-      './index'
-    ];
 
   const config: webpack.Configuration = {
     name: 'client',
     target: 'web',
-    context,
     entry: {
-      app: appEntryPoints
+      app: path.resolve(__dirname, './src/index.tsx')
     },
     output: {
-      filename: 'data.js',
-      path: path.resolve(__dirname, 'build/data'),
-      library: 'data',
+      filename: 'solo.js',
+      path: path.resolve(__dirname, 'build/solo'),
+      library: 'solo',
       libraryTarget: 'umd'
     },
     resolve: {
       extensions: ['.ts', '.tsx', '.js', 'jsx']
+    },
+    devServer: {
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+      }
     },
     devtool: argv.mode === 'production' ? 'source-map' : 'cheap-eval-source-map',
     module: {
       rules: [
         {
           test: /\.tsx?$/,
-          loader: 'ts-loader',
-          exclude: /node_modules/
+          exclude: /node_modules/,
+          use: {
+            loader: "babel-loader",
+            options: {
+              plugins: [
+                '@babel/plugin-proposal-class-properties'
+              ],
+              presets: [
+                "preact",
+                '@babel/preset-env',
+                ['@babel/preset-typescript', { jsxPragma: "h" }]
+              ]
+            }
+          }
         }
       ]
     },
     plugins: [
+      new CopyWebpackPlugin([
+        { from: 'node_modules/sql.js/dist/sql-wasm.js' },
+        { from: 'node_modules/sql.js/dist/sql-wasm.wasm' }
+      ]),
+      new webpack.NormalModuleReplacementPlugin(/typeorm$/, function (result) {
+        result.request = result.request.replace(/typeorm/, "typeorm/browser");
+      }),
       new HtmlWebpackPlugin({
-        template: './index.html',
+        template: path.resolve(__dirname, './src/index.html'),
         hash: true,
         filename: 'index.html',
         inject: 'body'
@@ -55,8 +73,9 @@ module.exports = (env: WebpackEnvironment, argv: { mode: string }) => {
       new HotModuleReplacementPlugin()
     ],
     externals: [
-      /^@xura\/components$/
-    ]
+      /^@xura\/components$/,
+      /^@xura\/data$/
+    ],
   };
 
   if (argv.mode === 'development') {

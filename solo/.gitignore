@@ -50,3 +50,5 @@ dist/
 
 cypress/screenshots/
 cypress/videos/
+
+sql-wasm.js

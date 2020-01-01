@@ -8,18 +8,11 @@
   <script type="systemjs-importmap">
     {
       "imports": {
-        "reflect-metadata": "https://cdnjs.cloudflare.com/ajax/libs/reflect-metadata/0.1.13/Reflect.min.js",
         "@solo": "http://localhost:9000/solo.js",
         "@xura/data": "http://localhost:8238/data.js",
-        "@xura/components": "http://localhost:8241/components.js",
-        "@xura/emporium": "http://localhost:8240/emporium.js",
-        "rxjs": "https://unpkg.com/rxjs@6.4.0/bundles/rxjs.umd.js"
+        "@xura/components": "http://localhost:8241/components.js"
       }
     }
-  </script>
-  <script src="/sql-wasm.js"></script>
-  <script>
-    initSqlJs();
   </script>
 
   <script src='https://unpkg.com/systemjs@4.1.0/dist/system.js'></script>
@@ -33,9 +26,8 @@
   <div id="root"></div>
 
   <script>
-    System.import('reflect-metadata')
     System.import('@solo')
   </script>
-</body>
+<script type="text/javascript" src="data.js?d279c4d620065e4426ab"></script></body>
 
 </html>

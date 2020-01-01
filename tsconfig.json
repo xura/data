@@ -8,5 +8,9 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "outDir": "build"
-  }
+  },
+  "exclude": [
+    "node_modules",
+    "solo"
+  ]
 }

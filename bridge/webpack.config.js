@@ -3,7 +3,7 @@ const webpack = require("webpack");
 const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-    entry: './src/index.js',
+    entry: path.resolve(__dirname, '../src/index.ts'),
     output: {
         filename: 'data.js',
         path: path.resolve(__dirname, 'build/data'),

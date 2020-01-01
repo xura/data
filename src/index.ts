@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { Achievement } from "./entities/Achievement";
 import { User } from "./entities/User";
 import { createConnection, Connection, getConnectionManager } from "typeorm";
