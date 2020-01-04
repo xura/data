@@ -1,8 +1,9 @@
 import 'reflect-metadata';
 import { Achievement } from "./entities/Achievement";
 import { User } from "./entities/User";
-import { createConnection, Connection, getConnectionManager } from "typeorm";
+import { createConnection, Connection, getConnectionManager, ObjectType } from "typeorm";
 import { initEmporium, Emporium } from '@xura/emporium';
+import { buildForm } from '@xura/components';
 
 const connect = (): Promise<Connection> =>
     createConnection({
@@ -18,18 +19,28 @@ const connect = (): Promise<Connection> =>
 
 initEmporium();
 
+type Entity<T> = {
+    repo: Emporium<T>
+    form: any
+}
+
 const connection = () => getConnectionManager().get("default");
+const entity = <T>(model: ObjectType<T>): Entity<T> => {
+    return {
+        repo: new Emporium<T>(
+            connection,
+            model,
+        ),
+        form: buildForm(model)
+    }
+}
 
 const data = {
-    achievements: new Emporium<Achievement>(
-        connection,
-        Achievement
-    ),
-    users: new Emporium<User>(
-        connection,
-        Achievement
-    )
+    achievements: entity(Achievement),
+    users: entity(User)
 };
+
+debugger;
 
 
 export {

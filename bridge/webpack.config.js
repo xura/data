@@ -17,11 +17,23 @@ module.exports = {
     },
     module: {
         rules: [
-            { parser: { System: false } },
             {
                 test: /\.tsx?$/,
-                use: 'ts-loader',
-                exclude: /node_modules/
+                exclude: /node_modules/,
+                use: {
+                    loader: "babel-loader",
+                    options: {
+                        plugins: [
+                            'babel-plugin-transform-typescript-metadata',
+                            ['@babel/plugin-proposal-decorators', { legacy: true }],
+                            '@babel/plugin-proposal-class-properties'
+                        ],
+                        presets: [
+                            '@babel/preset-env',
+                            ['@babel/preset-typescript', { jsxPragma: "h" }]
+                        ]
+                    }
+                }
             }
         ]
     },
@@ -43,6 +55,7 @@ module.exports = {
     devtool: 'source-map',
     externals: [
         /^rxjs$/,
-        /^@xura\/emporium$/
+        /^@xura\/emporium$/,
+        /^@xura\/components$/
     ],
 };

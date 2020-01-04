@@ -42,6 +42,7 @@
     "@xura/components": "git+https://git@github.com/xura/components",
     "@xura/data": "git+https://git@github.com/xura/data",
     "babel-loader": "8.0.6",
+    "babel-plugin-transform-typescript-metadata": "^0.2.2",
     "babel-preset-preact": "^2.0.0",
     "concurrently": "^5.0.2",
     "copy-webpack-plugin": "^5.1.1",

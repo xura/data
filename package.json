@@ -13,11 +13,20 @@
   "author": "Joe Badaczewski <joe307bad@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "@babel/core": "7.7.2",
+    "@babel/plugin-proposal-class-properties": "^7.7.4",
+    "@babel/plugin-proposal-decorators": "^7.7.4",
+    "@babel/preset-env": "^7.7.7",
+    "@babel/preset-react": "^7.7.4",
+    "@babel/preset-typescript": "^7.7.7",
     "@istanbuljs/nyc-config-typescript": "^0.1.3",
     "@types/chai": "^4.2.3",
     "@types/lodash": "^4.14.149",
     "@types/mocha": "^5.2.7",
     "@types/sinon": "^7.5.0",
+    "@types/uuid": "^3.4.6",
+    "@xura/components": "git+https://github.com/xura/components",
+    "babel-loader": "8.0.6",
     "chai": "^4.2.0",
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^5.0.4",
@@ -37,7 +46,7 @@
     "webpack-dev-server": "^3.8.1"
   },
   "dependencies": {
-    "@xura/emporium": "https://github.com/xura/emporium.git#0.0.14",
+    "@xura/emporium": "git+https://github.com/xura/emporium.git#0.0.14",
     "typeorm": "^0.2.19"
   }
 }

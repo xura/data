@@ -11,6 +11,11 @@
     "jsxFactory": "h",
     "noEmitHelpers": true,
     "importHelpers": true,
-    "skipLibCheck": true
-  }
+    "skipLibCheck": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+  },
+  "exclude": [
+    "node_modules"
+  ]
 }
