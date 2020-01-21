@@ -7,9 +7,7 @@ export class Achievement {
     @PrimaryGeneratedColumn()
     id?: number;
 
-    @FormComponent<string>({ type: new TextInput() })
+    @FormComponent<string>({ type: '' })
     @Column()
     title: string = '';
 }
-
-debugger;
