@@ -26,7 +26,6 @@ type Entity<T> = {
 
 const connection = () => getConnectionManager().get("default");
 const entity = <T>(model: ObjectType<T>): Entity<T> => {
-    debugger;
     return {
         repo: new Emporium<T>(
             connection,
@@ -40,9 +39,6 @@ const data = {
     achievements: entity(Achievement),
     users: entity(User)
 };
-
-debugger;
-
 
 export {
     connect,
