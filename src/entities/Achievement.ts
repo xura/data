@@ -13,4 +13,13 @@ export class Achievement {
     })
     @Column()
     title: string = '';
+
+    @FormComponent({
+        label: 'Achievment Description',
+        type: 'xura-text-area'
+    })
+    @Column({
+        default: ''
+    })
+    description: string = '';
 }

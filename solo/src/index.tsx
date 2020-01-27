@@ -7,7 +7,6 @@ import { connect, data } from '@xura/data';
 connect().then(_ => {
   // @ts-ignore
   window.d = data;
-
   render(
     <TodoList />,
     document.querySelector('#root')

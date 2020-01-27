@@ -1,6 +1,7 @@
 import { Component, h } from 'preact';
 import TodoItem from './todo-item';
 import '@xura/components';
+import { data } from '@xura/data';
 
 interface TodoListState {
   todos: { text: string }[];
@@ -9,6 +10,10 @@ interface TodoListState {
 
 export default class TodoList extends Component<{}, TodoListState> {
   state = { todos: [], text: '' };
+
+  componentDidMount() {
+    data.achievements.form('achievements-form');
+  }
 
   setText = (e: Event) => {
     this.setState({
@@ -27,14 +32,9 @@ export default class TodoList extends Component<{}, TodoListState> {
 
   render({ }, { todos, text }) {
     const items = ['Achievements', 'Users'];
+
     return (
-      <form onSubmit={this.addTodo} action="javascript:">
-        <xura-list style="display: block; width: 33.3%;" items={items}></xura-list>
-        <xura-text-input required="true" label="Achievement Name"></xura-text-input>
-        <input value={text} onInput={this.setText} data-cy="new-todo-input" />
-        <button type="submit" data-cy="todo-submit">Add</button>
-        <ul data-cy="todo-list">{todos.map(todo => <TodoItem text={todo.text} />)}</ul>
-      </form>
+      <div id="achievements-form"></div>
     );
   }
 }

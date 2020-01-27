@@ -15,10 +15,7 @@
     "node": ">=8"
   },
   "scripts": {
-    "kill": "lsof -ti :8230-9000 | xargs kill -9",
-    "start": "yarn kill && concurrently --kill-others --kill-others-on-fail -p name --names \"solo,components,data,emporium\" \"yarn start:solo\" \"yarn --cwd ../../components start\" \"yarn start:data\" \"yarn --cwd ../../emporium start\"",
-    "start:solo": "webpack-dev-server --mode=development --config ./webpack.config.ts --port 9000",
-    "start:data": "webpack-dev-server --mode=development --config ../bridge/webpack.config.js --port 8238"
+    "start": "webpack-dev-server --mode=development --config ./webpack.config.ts --port 9000"
   },
   "jest": {
     "moduleFileExtensions": [
