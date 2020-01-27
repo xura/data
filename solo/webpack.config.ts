@@ -66,11 +66,8 @@ module.exports = (env: WebpackEnvironment, argv: { mode: string }) => {
       }),
       new HtmlWebpackPlugin({
         template: path.resolve(__dirname, './src/index.html'),
-        hash: true,
-        filename: 'index.html',
-        inject: 'body'
+        filename: 'index.html'
       }),
-      new HotModuleReplacementPlugin()
     ],
     externals: [
       /^@xura\/components$/,

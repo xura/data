@@ -1,14 +1,14 @@
 import 'reflect-metadata'
 
 import { render, h } from 'preact';
-import TodoList from './components/todo-list';
+import Achievements from './components/achievements';
 import { connect, data } from '@xura/data';
 
 connect().then(_ => {
   // @ts-ignore
   window.d = data;
   render(
-    <TodoList />,
+    <Achievements />,
     document.querySelector('#root')
   );
 });
