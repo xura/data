@@ -1135,9 +1135,9 @@
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
 
-"@xura/components@git+https://github.com/xura/components":
+"@xura/components@git+https://github.com/xura/components#v0.0.1":
   version "0.0.1"
-  resolved "git+https://github.com/xura/components#5dece3445f77468c0c8af209761a8374a5258118"
+  resolved "git+https://github.com/xura/components#4c9d0d77081439fd762ddecf4f35f3aa7b541946"
 
 "@xura/emporium@git+https://github.com/xura/emporium.git#0.0.14":
   version "0.0.1"

@@ -7,7 +7,10 @@ export class Achievement {
     @PrimaryGeneratedColumn()
     id?: number;
 
-    @FormComponent<string>({ type: '' })
+    @FormComponent({
+        label: 'Achievment Title',
+        type: 'xura-text-input'
+    })
     @Column()
     title: string = '';
 }
