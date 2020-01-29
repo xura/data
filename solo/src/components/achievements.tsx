@@ -6,7 +6,6 @@ import { pipe } from 'rxjs';
 import '@xura/components';
 import { data } from '@xura/data';
 
-
 const aperture = component => component.mount.pipe(
   flatMap(_ => data.achievements.form('achievements-form')),
   pipe(map(achievement => toProps({ achievement })))
