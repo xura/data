@@ -9,16 +9,18 @@ import { data, Achievement } from '@xura/data';
 
 const achievementFormStyle = style({
   display: 'flex',
+  flexDirection: 'column',
   $nest: {
-    '& > xura-text-input': {
-      flex: 1
+    '& > .xura-input': {
+      flex: 1,
+      marginTop: 10
     }
   }
 });
 
 const formSettings = [
   'achievement-form',
-  { width: "100%" }
+  { width: "100%", marginTop: 20 }
 ];
 
 const aperture = component => component.mount.pipe(
