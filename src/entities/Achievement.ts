@@ -8,7 +8,7 @@ export class Achievement {
     id?: number;
 
     @FormComponent({
-        label: 'Achievment Title',
+        label: 'Achievement Title',
         type: 'xura-text-input'
     })
     @Column()

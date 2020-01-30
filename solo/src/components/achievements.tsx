@@ -10,17 +10,12 @@ import { data, Achievement } from '@xura/data';
 const achievementFormStyle = style({
   display: 'flex',
   flexDirection: 'column',
-  $nest: {
-    '& > .xura-input': {
-      flex: 1,
-      marginTop: 10
-    }
-  }
+  margin: 20
 });
 
 const formSettings = [
   'achievement-form',
-  { width: "100%", marginTop: 20 }
+  { width: "100%", marginTop: 10 }
 ];
 
 const aperture = component => component.mount.pipe(
@@ -30,8 +25,10 @@ const aperture = component => component.mount.pipe(
 
 const AchievementForm = ({ saveAcheivement, pushEvent }) => (
   <div>
-    <div className={achievementFormStyle} id="achievement-form"></div>
-    <xura-button onClick={saveAcheivement}>Save</xura-button>
+    <div className={achievementFormStyle}>
+      <span id="achievement-form"></span>
+      <xura-button styles={formSettings[1]} onClick={saveAcheivement}>Save</xura-button>
+    </div>
   </div>
 )
 
