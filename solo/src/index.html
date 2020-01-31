@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Xura | Data</title>
-  <script type="systemjs-importmap">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Xura | Data</title>
+    <script type="systemjs-importmap">
       {
         "imports": {
           "reflect-metadata": "https://cdnjs.cloudflare.com/ajax/libs/reflect-metadata/0.1.13/Reflect.min.js",
@@ -17,32 +17,27 @@
         }
       }
     </script>
-  <script src="/sql-wasm.js"></script>
-  <script>
-    initSqlJs();
-  </script>
+    <script src="/sql-wasm.js"></script>
+    <script>
+      initSqlJs();
+    </script>
 
-  <script src='https://unpkg.com/systemjs@4.1.0/dist/system.js'></script>
-  <script src='https://unpkg.com/systemjs@4.1.0/dist/extras/amd.js'></script>
-  <script src='https://unpkg.com/systemjs@4.1.0/dist/extras/named-exports.js'></script>
-  <script src='https://unpkg.com/systemjs@4.1.0/dist/extras/use-default.js'></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
-  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Material+Icons&display=block" rel="stylesheet">
-</head>
+    <script src='https://unpkg.com/systemjs@4.1.0/dist/system.js'></script>
+    <script src='https://unpkg.com/systemjs@4.1.0/dist/extras/amd.js'></script>
+    <script src='https://unpkg.com/systemjs@4.1.0/dist/extras/named-exports.js'></script>
+    <script src='https://unpkg.com/systemjs@4.1.0/dist/extras/use-default.js'></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Material+Icons&display=block" rel="stylesheet">
+  </head>
 
-<body style="margin: 0;">
-  <!-- <xura-navigation title="Xura | Data"></xura-navigation> -->
-  <xura-drawer>
-    <span slot="content">
-      <div id="root"></div>
-      </slot>
-  </xura-drawer>
-  <script>
-    System.import('reflect-metadata')
-    System.import('@solo')
-  </script>
-</body>
+  <body style="margin: 0;">
+    <div id="root"></div>
+    <script>
+      System.import ('reflect-metadata')
+      System.import ('@solo')
+    </script>
+  </body>
 
 </html>

@@ -66,7 +66,8 @@ module.exports = (env: WebpackEnvironment, argv: { mode: string }) => {
       }),
       new HtmlWebpackPlugin({
         template: path.resolve(__dirname, './src/index.html'),
-        filename: 'index.html'
+        filename: 'index.html',
+        inject: false
       }),
     ],
     externals: [

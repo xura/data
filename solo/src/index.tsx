@@ -1,14 +1,14 @@
 import 'reflect-metadata'
 
 import { render, h } from 'preact';
-import Achievements from './components/achievements';
+import Root from './components/root';
 import { connect, data } from '@xura/data';
 
 connect().then(_ => {
   // @ts-ignore
   window.d = data;
   render(
-    <Achievements />,
+    <Root />,
     document.querySelector('#root')
   );
 });
