@@ -1,7 +1,7 @@
 import { h } from 'preact';
 import { withEffects, toProps } from 'refract-preact-rxjs'
 import { map, flatMap } from 'rxjs/operators'
-import { pipe, merge, of } from 'rxjs';
+import { pipe, combineLatest } from 'rxjs';
 import { style } from "typestyle";
 
 import '@xura/components';
@@ -19,27 +19,31 @@ const formSettings = [
   { width: "100%", marginTop: 10 }
 ];
 
-const aperture = (component, props) => {
+const aperture = (component) => {
   const entity$ = component.observe('entity')
-  return merge(
-    component.mount.pipe(
-      flatMap(_ => data.achievements.form(...formSettings)),
-      pipe(map((achievement: Achievement) => toProps({ saveAcheivement: () => data.achievements.repo.save(achievement) })))
-    ),
-    entity$.pipe(
-      map(entity => entity)
-    ),
+
+  return combineLatest(
+    component.mount,
+    entity$
+  ).pipe(
+    flatMap(props => data[props[1].toString().toLowerCase()].form(...formSettings)),
+    pipe(map((entity: any) => toProps({
+      save: (entityName: string) => data[entityName].repo.save(entity)
+    })))
   )
 };
 
-const AchievementForm = ({ saveAcheivement, entity, pushEvent }) => (
-  <div className={achievementFormStyle}>
-    <h1>{entity}</h1>
-    <span id="achievement-form"></span>
-    <xura-button styles={formSettings[1]} onClick={saveAcheivement}>
-      Save
+const AchievementForm = ({ save, entity, pushEvent }) => {
+  const saveEntity = () => save(entity.toLowerCase());
+  return (
+    <div className={achievementFormStyle}>
+      <h1>{entity}</h1>
+      <span id="achievement-form"></span>
+      <xura-button styles={formSettings[1]} onClick={saveEntity}>
+        Save
       </xura-button>
-  </div>
-)
+    </div>
+  )
+}
 
 export default withEffects(aperture)(AchievementForm)

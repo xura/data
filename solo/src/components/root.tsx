@@ -12,25 +12,21 @@ import Entity from './entity';
 const items = Object.keys(data).map(_ => capitalCase(_))
 const drawer = createRef();
 
-const aperture = (component, props) => {
-    const activeTab$ = component.observe('setActiveTab')
-    return merge(
-        component.mount.pipe(
-            flatMap((_: any) => fromEvent(drawer.current, 'navigate').pipe(
-                tap((evt: any) => props.setActiveTab(evt.detail)),
-                map((evt: any) => ({
-                    type: 'NAVIGATION',
-                    replace: true,
-                    state: evt.detail
-                }))))),
-        fromEvent(window, 'popstate').pipe(
+const aperture = (component, props) => merge(
+    component.mount.pipe(
+        flatMap((_: any) => fromEvent(drawer.current, 'navigate').pipe(
             map((evt: any) => ({
-                type: 'STATE',
-                state: evt.state
-            }))
-        )
+                type: 'NAVIGATION',
+                replace: true,
+                state: evt.detail
+            }))))),
+    fromEvent(window, 'popstate').pipe(
+        map((evt: any) => ({
+            type: 'BACK',
+            state: evt.state
+        }))
     )
-}
+)
 
 const handler = ({ setActiveTab }) => effect => {
     switch (effect.type) {
@@ -41,9 +37,10 @@ const handler = ({ setActiveTab }) => effect => {
                 : ''
             const methodName = effect.replace ? 'replaceState' : 'pushState'
             window.history[methodName](effect.state, null, `${path}${search}`)
+            setActiveTab(effect.state)
             return
 
-        case 'STATE':
+        case 'BACK':
             return setActiveTab(effect.state)
 
         default:

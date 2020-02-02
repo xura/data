@@ -11,7 +11,8 @@ const connect = (): Promise<Connection> =>
         location: "emporium",
         autoSave: true,
         entities: [
-            Achievement
+            Achievement,
+            User
         ],
         logging: ['query', 'schema'],
         synchronize: true
