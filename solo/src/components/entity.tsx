@@ -5,9 +5,9 @@ import { pipe, combineLatest } from 'rxjs';
 import { style } from "typestyle";
 
 import '@xura/components';
-import { data, Achievement } from '@xura/data';
+import { data } from '@xura/data';
 
-const achievementFormStyle = style({
+const entityFormStyle = style({
   display: 'flex',
   flexDirection: 'column',
   margin: 20,
@@ -15,7 +15,7 @@ const achievementFormStyle = style({
 });
 
 const formSettings = [
-  'achievement-form',
+  'entity-form',
   { width: "100%", marginTop: 10 }
 ];
 
@@ -33,12 +33,12 @@ const aperture = (component) => {
   )
 };
 
-const AchievementForm = ({ save, entity, pushEvent }) => {
+const EntityForm = ({ save, entity, pushEvent }) => {
   const saveEntity = () => save(entity.toLowerCase());
   return (
-    <div className={achievementFormStyle}>
+    <div className={entityFormStyle}>
       <h1>{entity}</h1>
-      <span id="achievement-form"></span>
+      <span id="entity-form"></span>
       <xura-button styles={formSettings[1]} onClick={saveEntity}>
         Save
       </xura-button>
@@ -46,4 +46,4 @@ const AchievementForm = ({ save, entity, pushEvent }) => {
   )
 }
 
-export default withEffects(aperture)(AchievementForm)
+export default withEffects(aperture)(EntityForm)
