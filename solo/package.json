@@ -42,6 +42,7 @@
     "babel-loader": "8.0.6",
     "babel-plugin-transform-typescript-metadata": "^0.2.2",
     "babel-preset-preact": "^2.0.0",
+    "change-case": "^4.1.1",
     "concurrently": "^5.0.2",
     "copy-webpack-plugin": "^5.1.1",
     "csstips": "^1.2.0",
@@ -55,12 +56,13 @@
     "ts-node": "8.5.4",
     "typescript": "3.7.4",
     "typestyle": "^2.0.4",
+    "url-parameter-parser": "^1.0.2",
     "webpack": "4.41.4",
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "3.8.0"
   },
   "dependencies": {
-    "preact": "8.5.2",
+    "preact": "10.1.1",
     "tslib": "1.10.0"
   }
 }
