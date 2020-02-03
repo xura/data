@@ -1,15 +1,12 @@
 import { h } from 'preact';
 import { withEffects, toProps } from 'refract-preact-rxjs'
 import { map, flatMap } from 'rxjs/operators'
-import { pipe, combineLatest } from 'rxjs';
+import { pipe, combineLatest, merge } from 'rxjs';
 import { style } from "typestyle";
 
 import '@xura/components';
 import { data } from '@xura/data';
 
-data.achievements.repo.streamAll().then(stream => stream.subscribe(all => {
-  debugger;
-}))
 
 const entityFormStyle = style({
   display: 'flex',
@@ -24,21 +21,31 @@ const formSettings = [
 ];
 
 const aperture = (component) => {
-  const entity$ = component.observe('entity')
-
-  return combineLatest(
+  const entity$ = combineLatest(
     component.mount,
-    entity$
-  ).pipe(
-    flatMap(props => data[props[1].toString().toLowerCase()].form(...formSettings)),
-    pipe(map((entity: any) => toProps({
-      save: (entityName: string) => data[entityName].repo.save(entity)
-    })))
+    component.observe('entity')
+  );
+  const entity = (entityName: string) => data[entityName.toString().toLowerCase()]
+
+  return merge(
+    entity$.pipe(
+      flatMap(props => data[props[1].toString().toLowerCase()].form(...formSettings)),
+      pipe(map((entity: any) => toProps({
+        save: (entityName: string) => data[entityName].repo.save(entity)
+      })))
+    ),
+    entity$.pipe(
+      flatMap(props => data[props[1].toString().toLowerCase()].repo.streamAll()),
+      pipe(map((entities: any) => toProps({
+        entities
+      })))
+    )
   )
 };
 
-const EntityForm = ({ save, entity, pushEvent }) => {
+const EntityForm = ({ save, entity, entities, pushEvent }) => {
   const saveEntity = () => save(entity.toLowerCase());
+  debugger;
   return (
     <div className={entityFormStyle}>
       <h1>{entity}</h1>

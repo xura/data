@@ -16,6 +16,9 @@ const connect = (): Promise<Connection> =>
         ],
         logging: ['query', 'schema'],
         synchronize: true
+    }).then(_ => {
+        initEmporium();
+        return _
     });
 
 initEmporium();
