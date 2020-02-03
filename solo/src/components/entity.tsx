@@ -7,6 +7,10 @@ import { style } from "typestyle";
 import '@xura/components';
 import { data } from '@xura/data';
 
+data.achievements.repo.streamAll().then(stream => stream.subscribe(all => {
+  debugger;
+}))
+
 const entityFormStyle = style({
   display: 'flex',
   flexDirection: 'column',

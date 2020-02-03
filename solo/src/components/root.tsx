@@ -1,8 +1,8 @@
 import { h, createRef } from 'preact';
 import { useState } from 'preact/hooks';
 import { withEffects } from 'refract-preact-rxjs'
-import { map, flatMap, tap } from 'rxjs/operators'
-import { of, fromEvent, merge } from 'rxjs';
+import { map, flatMap } from 'rxjs/operators'
+import { fromEvent, merge } from 'rxjs';
 import { capitalCase } from "change-case";
 
 import '@xura/components';
@@ -12,9 +12,9 @@ import Entity from './entity';
 const items = Object.keys(data).map(_ => capitalCase(_))
 const drawer = createRef();
 
-const aperture = (component, props) => merge(
+const aperture = component => merge(
     component.mount.pipe(
-        flatMap((_: any) => fromEvent(drawer.current, 'navigate').pipe(
+        flatMap(_ => fromEvent(drawer.current, 'navigate').pipe(
             map((evt: any) => ({
                 type: 'NAVIGATION',
                 replace: true,
@@ -28,7 +28,7 @@ const aperture = (component, props) => merge(
     )
 )
 
-const handler = ({ setActiveTab }) => effect => {
+const handler = ({ setActiveTab, activeTab }) => effect => {
     switch (effect.type) {
         case 'NAVIGATION':
             const path = document.location.pathname
