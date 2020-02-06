@@ -29,8 +29,6 @@ type TEntityProps = {
 
 const aperture = (component, { store }: TEntityProps) => {
   const events$ = combineLatest(
-    component.mount,
-    component.observe('entityName'),
     from(store.repo.streamAll()).pipe(flatMap(stream => stream))
   )
 
@@ -38,19 +36,24 @@ const aperture = (component, { store }: TEntityProps) => {
   // actions/effect within the handler
   // https://github.com/fanduel-oss/refract/blob/d313a08730f03cb467f9ca5d5b840d24cb6c9290/examples/redux-fetch/rxjs/src/index.js
 
-  const onEntityChange$ = events$.pipe(
-    map(([_, entityName]) => toProps({
-      entityName
-    })))
-
-  const onFormChange$ = events$.pipe(
-    flatMap(_ => store.form(...formSettings)),
-    map(entityData => toProps({
-      save: () => store.repo.save(entityData)
-    })))
+  const onEntityChange$ = combineLatest(
+    component.mount,
+    component.observe('entityName')
+  ).pipe(
+    flatMap(
+      ([_, entityName]) =>
+        data[entityName.toString().toLowerCase()].form(...formSettings)
+    ),
+    map((entityData) => {
+      debugger;
+      return toProps({
+        save: () => store.repo.save(entityData)
+      })
+    })
+  )
 
   const onEntityActionTriggered$ = events$.pipe(
-    flatMap(([_, _1, entities]) => from(entities)),
+    flatMap(([entities]) => from(entities)),
     map(entities => toProps({
       entities
     }))
@@ -71,11 +74,12 @@ const aperture = (component, { store }: TEntityProps) => {
   //     });
   //   }))
 
-  return merge(onEntityChange$, onFormChange$, onEntityActionTriggered$);
+  return merge(onEntityChange$, onEntityActionTriggered$);
 
 }
 
 const EntityForm = ({ save, entityName, entities, pushEvent, store }) => {
+  debugger;
   return (
     <div className={entityFormStyle}>
       <h1>{entityName}</h1>
