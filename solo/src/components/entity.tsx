@@ -31,6 +31,11 @@ const aperture = (component, { entity, store }) => {
     // @ts-ignore
     from(store.repo.streamAll()).pipe(flatMap(stream => stream))
   )
+
+  // TODO spit up component.mount, entity observation, and streaming all entities into seperate 
+  // actions/effect within the handler
+  // https://github.com/fanduel-oss/refract/blob/d313a08730f03cb467f9ca5d5b840d24cb6c9290/examples/redux-fetch/rxjs/src/index.js
+
   return events$.pipe(
     flatMap(([_, entity, entities]) =>
       combineLatest(
