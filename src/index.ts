@@ -23,7 +23,7 @@ const connect = (): Promise<Connection> =>
 
 initEmporium();
 
-type Entity<T> = {
+export type Entity<T> = {
     repo: Emporium<T>
     form: any
 }

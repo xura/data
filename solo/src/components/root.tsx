@@ -51,7 +51,10 @@ const handler = ({ setActiveTab, activeTab }) => effect => {
 const Root = withEffects(aperture, { handler })(({ activeTab }) => (
     <xura-drawer ref={drawer} items={items} title="Xura | Data">
         <span slot='content'>
-            <Entity entity={activeTab} store={data[activeTab.toString().toLowerCase()]} />
+            <Entity
+                entityName={activeTab}
+                store={data[activeTab.toString().toLowerCase()]}
+            />
         </span>
     </xura-drawer>
 ));
