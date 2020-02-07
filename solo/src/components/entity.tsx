@@ -1,7 +1,7 @@
 import { h } from 'preact';
 import { withEffects, toProps, asProps } from 'refract-preact-rxjs'
-import { map, flatMap, switchMap, mergeMap } from 'rxjs/operators'
-import { pipe, combineLatest, from, of, merge } from 'rxjs';
+import { map, flatMap, switchMap, mergeMap, tap } from 'rxjs/operators'
+import { pipe, combineLatest, from, of, merge, forkJoin } from 'rxjs';
 import { style } from "typestyle";
 import "regenerator-runtime/runtime";
 
@@ -24,61 +24,63 @@ const formSettings = [
 
 type TEntityProps = {
   entityName: string;
-  store: Entity<any>
+  save?: () => void
 }
 
-const aperture = (component, { store }: TEntityProps) => {
+const aperture = (component, { entityName, save }: TEntityProps) => {
+
+  const store = (entityName: string) =>
+    (data[entityName.toLowerCase()] as Entity<any>)
+
   const events$ = combineLatest(
-    from(store.repo.streamAll()).pipe(flatMap(stream => stream))
-  )
-
-  // TODO spit up component.mount, entity observation, and streaming all entities into seperate 
-  // actions/effect within the handler
-  // https://github.com/fanduel-oss/refract/blob/d313a08730f03cb467f9ca5d5b840d24cb6c9290/examples/redux-fetch/rxjs/src/index.js
-
-  const onEntityChange$ = combineLatest(
     component.mount,
     component.observe('entityName')
-  ).pipe(
-    flatMap(
-      ([_, entityName]) =>
-        data[entityName.toString().toLowerCase()].form(...formSettings)
-    ),
-    map((entityData) => {
-      debugger;
-      return toProps({
-        save: () => store.repo.save(entityData)
-      })
-    })
   )
 
-  const onEntityActionTriggered$ = events$.pipe(
-    flatMap(([entities]) => from(entities)),
-    map(entities => toProps({
-      entities
+  return events$.pipe(
+    flatMap(([_, entityName]) => {
+      const s = store(entityName.toString());
+      const { renderer, changes } = s.form
+      const { container, elements } = renderer(formSettings[1]);
+      return combineLatest(
+        of(s),
+        of(container),
+        changes(elements)
+      )
+    }),
+    tap(([s, container]) => {
+      const formContainer =
+        document.getElementById(formSettings[0].toString());
+
+      formContainer && (() => {
+        debugger;
+        formContainer.innerHTML = ''
+        formContainer.appendChild(container)
+      })()
+    }),
+    map(([s, container, changes$]) => toProps({
+      save: () => s.repo.save(changes$)
     }))
   )
 
-  // return events$.pipe(
-  //   flatMap(([_, entity, entities]) =>
-  //     combineLatest(
-  //       store.form(...formSettings),
-  //       // @ts-ignore
-  //       from(entities)
-  //     )
-  //   ),
-  //   map(([entityData, entities]) => {
-  //     return toProps({
-  //       save: () => store.repo.save(entityData),
-  //       entities
-  //     });
-  //   }))
-
-  return merge(onEntityChange$, onEntityActionTriggered$);
-
 }
 
-const EntityForm = ({ save, entityName, entities, pushEvent, store }) => {
+const handler = ({ entityName }: TEntityProps) => ({ payload, type }) => {
+  const formContainer =
+    document.getElementById(formSettings[0].toString());
+  debugger;
+  switch (type) {
+    case 'BUILD_FORM':
+      formContainer && (() => {
+        debugger;
+        formContainer.innerHTML = ''
+        formContainer.appendChild(payload.form)
+      })()
+      return;
+  }
+};
+
+const EntityForm = ({ save, entityName, pushEvent }) => {
   debugger;
   return (
     <div className={entityFormStyle}>
@@ -87,11 +89,11 @@ const EntityForm = ({ save, entityName, entities, pushEvent, store }) => {
       <xura-button styles={formSettings[1]} onClick={save}>
         Save
       </xura-button>
-      <ul>
-        {entities && entities.map(entity => <li>{entity.title}</li>)}
-      </ul>
-    </div>
+      <h1>
+        {false && entities && entities.length}
+      </h1>
+    </div >
   )
 }
 
-export default withEffects(aperture)(EntityForm)
+export default withEffects(aperture, { handler })(EntityForm)
