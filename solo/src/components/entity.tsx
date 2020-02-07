@@ -27,7 +27,7 @@ type TEntityProps = {
   save?: () => void
 }
 
-const aperture = (component, { entityName, save }: TEntityProps) => {
+const aperture = (component, { entityName }) => {
 
   const store = (entityName: string) =>
     (data[entityName.toLowerCase()] as Entity<any>)
@@ -42,6 +42,7 @@ const aperture = (component, { entityName, save }: TEntityProps) => {
       const s = store(entityName.toString());
       const { renderer, changes } = s.form
       const { container, elements } = renderer(formSettings[1]);
+      const { streamAll } = s.repo;
       return combineLatest(
         of(s),
         of(container),
@@ -49,11 +50,11 @@ const aperture = (component, { entityName, save }: TEntityProps) => {
       )
     }),
     tap(([s, container]) => {
+      // TODO this is causing the form to render multiple times and unfocuses the input the user is currently using
       const formContainer =
         document.getElementById(formSettings[0].toString());
 
       formContainer && (() => {
-        debugger;
         formContainer.innerHTML = ''
         formContainer.appendChild(container)
       })()
@@ -65,23 +66,7 @@ const aperture = (component, { entityName, save }: TEntityProps) => {
 
 }
 
-const handler = ({ entityName }: TEntityProps) => ({ payload, type }) => {
-  const formContainer =
-    document.getElementById(formSettings[0].toString());
-  debugger;
-  switch (type) {
-    case 'BUILD_FORM':
-      formContainer && (() => {
-        debugger;
-        formContainer.innerHTML = ''
-        formContainer.appendChild(payload.form)
-      })()
-      return;
-  }
-};
-
-const EntityForm = ({ save, entityName, pushEvent }) => {
-  debugger;
+const EntityForm = ({ save, entityName, entities, pushEvent }) => {
   return (
     <div className={entityFormStyle}>
       <h1>{entityName}</h1>
@@ -89,11 +74,8 @@ const EntityForm = ({ save, entityName, pushEvent }) => {
       <xura-button styles={formSettings[1]} onClick={save}>
         Save
       </xura-button>
-      <h1>
-        {false && entities && entities.length}
-      </h1>
     </div >
   )
 }
 
-export default withEffects(aperture, { handler })(EntityForm)
+export default withEffects(aperture)(EntityForm)
