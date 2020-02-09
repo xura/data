@@ -26,7 +26,6 @@ const aperture = (component, { entity }) => {
 
   const renderForm = (container: any) => {
     const formContainer = document.getElementById(formSettings[0].toString());
-    debugger;
     formContainer && (() => {
       formContainer.innerHTML = '';
       formContainer.appendChild(
@@ -40,15 +39,12 @@ const aperture = (component, { entity }) => {
     component.mount
   ).pipe(
     flatMap(([entity, _]) => {
-      debugger;
       const entityName = entity.toString().toLowerCase();
       const entityForm = data[entityName].form;
       const form = entityForm.renderer(formSettings[1]);
       renderForm(form.container);
 
-      const changes$ = entityForm.changes(form.elements);
-
-      return combineLatest(changes$).pipe(
+      return combineLatest(entityForm.changes(form.elements)).pipe(
         map(([changes]) => toProps({
           save: () => data[entityName].repo.save(changes as Achievement)
         })))
@@ -72,7 +68,4 @@ const EntityForm = ({ entity, save, pushEvent }) => {
 const EntityFormWithEffects =
   withEffects(aperture)(EntityForm)
 
-export default ({ entity }) => {
-  debugger;
-  return <EntityFormWithEffects entity={entity} />
-}
+export default ({ entity }) => <EntityFormWithEffects entity={entity} />
