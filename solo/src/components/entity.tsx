@@ -1,6 +1,6 @@
 import { h } from 'preact';
 import { withEffects, toProps, asProps } from 'refract-preact-rxjs'
-import { map, flatMap, switchMap, mergeMap, tap } from 'rxjs/operators'
+import { map, flatMap, switchMap, mergeMap, tap, startWith, scan, withLatestFrom } from 'rxjs/operators'
 import { pipe, combineLatest, from, of, merge, forkJoin } from 'rxjs';
 import { style } from "typestyle";
 import "regenerator-runtime/runtime";
@@ -27,55 +27,40 @@ type TEntityProps = {
   save?: () => void
 }
 
-const aperture = (component, { entityName }) => {
+const aperture = component => {
 
-  const store = (entityName: string) =>
-    (data[entityName.toLowerCase()] as Entity<any>)
+  const form = data.achievements.form.renderer(formSettings[1]);
 
-  const events$ = combineLatest(
-    component.mount,
-    component.observe('entityName')
+  const mount$ = component.mount.pipe(
+    tap(_ =>
+      document.getElementById(formSettings[0].toString()).appendChild(
+        form.container
+      ))
   )
 
-  return events$.pipe(
-    flatMap(([_, entityName]) => {
-      const s = store(entityName.toString());
-      const { renderer, changes } = s.form
-      const { container, elements } = renderer(formSettings[1]);
-      const { streamAll } = s.repo;
-      return combineLatest(
-        of(s),
-        of(container),
-        changes(elements)
-      )
-    }),
-    tap(([s, container]) => {
-      // TODO this is causing the form to render multiple times and unfocuses the input the user is currently using
-      const formContainer =
-        document.getElementById(formSettings[0].toString());
+  const changes$ = data.achievements.form.changes(form.elements);
 
-      formContainer && (() => {
-        formContainer.innerHTML = ''
-        formContainer.appendChild(container)
-      })()
-    }),
-    map(([s, container, changes$]) => toProps({
-      save: () => s.repo.save(changes$)
-    }))
-  )
-
+  return combineLatest(changes$, mount$).pipe(
+    map(([changes]) => toProps({
+      save: () => data.achievements.repo.save(changes as Achievement)
+    })))
 }
 
-const EntityForm = ({ save, entityName, entities, pushEvent }) => {
+
+const EntityForm = ({ isExpanded, save, pushEvent }) => {
+  debugger;
   return (
     <div className={entityFormStyle}>
-      <h1>{entityName}</h1>
+      <h1>{}</h1>
       <span id="entity-form"></span>
-      <xura-button styles={formSettings[1]} onClick={save}>
+      <xura-button styles={formSettings[1]} onClick={() => save()}>
         Save
       </xura-button>
     </div >
   )
 }
 
-export default withEffects(aperture)(EntityForm)
+const EntityFormWithEffects =
+  withEffects(aperture)(EntityForm)
+
+export default () => <EntityFormWithEffects />
