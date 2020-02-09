@@ -8,6 +8,7 @@ import "regenerator-runtime/runtime";
 import '@xura/components';
 import { data, Entity } from '@xura/data';
 import { Achievement } from '../../../src/entities';
+import { capitalCase } from 'change-case';
 
 
 const entityFormStyle = style({
@@ -46,6 +47,7 @@ const aperture = (component, { entity }) => {
 
       return combineLatest(entityForm.changes(form.elements)).pipe(
         map(([changes]) => toProps({
+          entity: capitalCase(entityName),
           save: () => data[entityName].repo.save(changes as Achievement)
         })))
     })
@@ -56,7 +58,7 @@ const aperture = (component, { entity }) => {
 const EntityForm = ({ entity, save, pushEvent }) => {
   return (
     <div className={entityFormStyle}>
-      <h1>{}</h1>
+      <h1>{entity}</h1>
       <span id="entity-form"></span>
       <xura-button styles={formSettings[1]} onClick={() => save()}>
         Save
