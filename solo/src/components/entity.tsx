@@ -22,33 +22,42 @@ const formSettings = [
   { width: "100%", marginTop: 10 }
 ];
 
-type TEntityProps = {
-  entityName: string;
-  save?: () => void
-}
+const aperture = (component, { entity }) => {
 
-const aperture = component => {
+  const renderForm = (container: any) => {
+    const formContainer = document.getElementById(formSettings[0].toString());
+    debugger;
+    formContainer && (() => {
+      formContainer.innerHTML = '';
+      formContainer.appendChild(
+        container
+      )
+    })()
+  }
 
-  const form = data.achievements.form.renderer(formSettings[1]);
+  return combineLatest(
+    component.observe('entity'),
+    component.mount
+  ).pipe(
+    flatMap(([entity, _]) => {
+      debugger;
+      const entityName = entity.toString().toLowerCase();
+      const entityForm = data[entityName].form;
+      const form = entityForm.renderer(formSettings[1]);
+      renderForm(form.container);
 
-  const mount$ = component.mount.pipe(
-    tap(_ =>
-      document.getElementById(formSettings[0].toString()).appendChild(
-        form.container
-      ))
+      const changes$ = entityForm.changes(form.elements);
+
+      return combineLatest(changes$).pipe(
+        map(([changes]) => toProps({
+          save: () => data[entityName].repo.save(changes as Achievement)
+        })))
+    })
   )
-
-  const changes$ = data.achievements.form.changes(form.elements);
-
-  return combineLatest(changes$, mount$).pipe(
-    map(([changes]) => toProps({
-      save: () => data.achievements.repo.save(changes as Achievement)
-    })))
 }
 
 
-const EntityForm = ({ isExpanded, save, pushEvent }) => {
-  debugger;
+const EntityForm = ({ entity, save, pushEvent }) => {
   return (
     <div className={entityFormStyle}>
       <h1>{}</h1>
@@ -63,4 +72,7 @@ const EntityForm = ({ isExpanded, save, pushEvent }) => {
 const EntityFormWithEffects =
   withEffects(aperture)(EntityForm)
 
-export default () => <EntityFormWithEffects />
+export default ({ entity }) => {
+  debugger;
+  return <EntityFormWithEffects entity={entity} />
+}
