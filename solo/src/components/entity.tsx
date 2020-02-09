@@ -41,12 +41,12 @@ const aperture = (component, { entity }) => {
   ).pipe(
     flatMap(([entity, _]) => {
       const entityName = entity.toString().toLowerCase();
-      const entityForm = data[entityName].form;
-      const form = entityForm.renderer(formSettings[1]);
-      renderForm(form.container);
+      const form = data[entityName].form;
+      const renderedForm = form.renderer(formSettings[1]);
+      renderForm(renderedForm.container);
 
-      return combineLatest(entityForm.changes(form.elements)).pipe(
-        map(([changes]) => toProps({
+      return form.changes(renderedForm.elements).pipe(
+        map(changes => toProps({
           entity: capitalCase(entityName),
           save: () => data[entityName].repo.save(changes as Achievement)
         })))
@@ -60,7 +60,7 @@ const EntityForm = ({ entity, save, pushEvent }) => {
     <div className={entityFormStyle}>
       <h1>{entity}</h1>
       <span id="entity-form"></span>
-      <xura-button styles={formSettings[1]} onClick={() => save()}>
+      <xura-button styles={formSettings[1]} onClick={save}>
         Save
       </xura-button>
     </div >
@@ -70,4 +70,5 @@ const EntityForm = ({ entity, save, pushEvent }) => {
 const EntityFormWithEffects =
   withEffects(aperture)(EntityForm)
 
-export default ({ entity }) => <EntityFormWithEffects entity={entity} />
+export default ({ entity }) =>
+  <EntityFormWithEffects entity={entity} />

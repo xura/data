@@ -1,8 +1,8 @@
 import { h, createRef } from 'preact';
 import { useState } from 'preact/hooks';
-import { withEffects } from 'refract-preact-rxjs'
+import { withEffects, toProps } from 'refract-preact-rxjs'
 import { map, flatMap } from 'rxjs/operators'
-import { fromEvent, merge } from 'rxjs';
+import { fromEvent, merge, from } from 'rxjs';
 import { capitalCase } from "change-case";
 
 import '@xura/components';
@@ -25,10 +25,19 @@ const aperture = component => merge(
             type: 'BACK',
             state: evt.state
         }))
+    ),
+    component.observe('activeTab').pipe(
+        flatMap(activeTab =>
+            from(data[activeTab.toString().toLowerCase()].repo.streamAll())
+                .pipe(flatMap((stream: Promise<any>) => stream),
+                    map((evt: any) => ({
+                        type: 'SET_ENTITIES',
+                        state: evt
+                    }))))
     )
 )
 
-const handler = ({ setActiveTab, activeTab }) => effect => {
+const handler = ({ setActiveTab, activeTab, entities, setEntities }) => effect => {
     switch (effect.type) {
         case 'NAVIGATION':
             const path = document.location.pathname
@@ -39,28 +48,37 @@ const handler = ({ setActiveTab, activeTab }) => effect => {
             window.history[methodName](effect.state, null, `${path}${search}`)
             setActiveTab(effect.state)
             return
-
         case 'BACK':
             return setActiveTab(effect.state)
-
+        case 'SET_ENTITIES':
+            return effect.state
+                .then(entities => setEntities(entities))
         default:
             return
     }
 }
 
-const Root = withEffects(aperture, { handler })(({ activeTab }) => (
+const Root = withEffects(aperture, { handler })(({ activeTab, entities, setEntities }) =>
     <xura-drawer ref={drawer} items={items} title="Xura | Data">
         <span slot='content'>
             <Entity entity={activeTab} />
+            <h1>{entities.length}</h1>
         </span>
     </xura-drawer>
-));
+)
 
-export default ({ entity }) => {
-    const [activeTab, setActiveTab] = useState(entity || items[0])
-
+export default (state) => {
+    const [activeTab, setActiveTab] =
+        useState(state.entity || items[0])
+    const [entities, setEntities] =
+        useState([])
     return (
-        <Root activeTab={activeTab} setActiveTab={setActiveTab} />
+        <Root
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+            entities={entities}
+            setEntities={setEntities}
+        />
     );
 }
 
