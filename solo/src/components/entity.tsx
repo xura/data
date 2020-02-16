@@ -63,7 +63,7 @@ const EntityForm = ({ entity, save, pushEvent }) => {
       <xura-button styles={formSettings[1]} onClick={save}>
         Save
       </xura-button>
-    </div >
+    </div>
   )
 }
 

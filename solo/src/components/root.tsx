@@ -58,14 +58,21 @@ const handler = ({ setActiveTab, activeTab, entities, setEntities }) => effect =
     }
 }
 
-const Root = withEffects(aperture, { handler })(({ activeTab, entities, setEntities }) =>
-    <xura-drawer ref={drawer} items={items} title="Xura | Data">
-        <span slot='content'>
-            <Entity entity={activeTab} />
-            <h1>{entities.length}</h1>
-        </span>
-    </xura-drawer>
-)
+const Root = withEffects(aperture, { handler })(({ activeTab, entities, setEntities }) => {
+    const entityList = entities.map(entity => `${entity.id} | ${entity.title}`);
+    return (
+        <xura-drawer ref={drawer} items={items} title="Xura | Data">
+            <span slot='content'>
+                <div style={{ width: '50%', float: 'left' }}>
+                    <Entity entity={activeTab} />
+                </div>
+                <div style={{ width: '50%', float: 'right', height: '500px', overflow: 'scroll' }}>
+                    <xura-list items={entityList}></xura-list>
+                </div>
+            </span>
+        </xura-drawer>
+    )
+})
 
 export default (state) => {
     const [activeTab, setActiveTab] =
