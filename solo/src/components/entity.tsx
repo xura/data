@@ -1,7 +1,7 @@
 import { h } from 'preact';
-import { withEffects, toProps, asProps } from 'refract-preact-rxjs'
-import { map, flatMap, switchMap, mergeMap, tap, startWith, scan, withLatestFrom } from 'rxjs/operators'
-import { pipe, combineLatest, from, of, merge, forkJoin } from 'rxjs';
+import { withEffects, toProps } from 'refract-preact-rxjs'
+import { map, flatMap } from 'rxjs/operators'
+import { combineLatest } from 'rxjs';
 import { style } from "typestyle";
 import "regenerator-runtime/runtime";
 
