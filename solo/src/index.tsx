@@ -9,7 +9,7 @@ connect().then(_ => {
   // @ts-ignore
   window.d = data;
   const { entity } = parser(document.location.search);
-
+  debugger;
   render(
     <Root entity={entity} />,
     document.querySelector('#root')
