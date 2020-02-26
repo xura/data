@@ -5,23 +5,17 @@ import { createConnection, Connection, getConnectionManager, ObjectType } from "
 import { initEmporium, Emporium } from '@xura/emporium';
 import { buildForm } from '@xura/components';
 
-const connect = (): Promise<Connection> =>
-    createConnection({
-        type: "sqljs",
-        location: "emporium",
-        autoSave: true,
-        entities: [
-            Achievement,
-            User
-        ],
-        logging: ['query', 'schema'],
-        synchronize: true
-    }).then(_ => {
-        initEmporium();
-        return _
-    });
-
-initEmporium();
+const connect = () => createConnection({
+    type: "sqljs",
+    location: "emporium",
+    autoSave: true,
+    entities: [
+        Achievement,
+        User
+    ],
+    logging: ['query', 'schema'],
+    synchronize: true
+}).then(initEmporium);
 
 export type Entity<T> = {
     repo: Emporium<T>
@@ -31,10 +25,7 @@ export type Entity<T> = {
 const connection = () => getConnectionManager().get("default");
 const entity = <T>(model: ObjectType<T>): Entity<T> => {
     return {
-        repo: new Emporium<T>(
-            connection,
-            model,
-        ),
+        repo: new Emporium<T>(model),
         form: buildForm(model)
     }
 }

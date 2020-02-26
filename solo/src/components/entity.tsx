@@ -48,7 +48,7 @@ const aperture = (component, { entity }) => {
       return form.changes(renderedForm.elements).pipe(
         map(changes => toProps({
           entity: capitalCase(entityName),
-          save: () => data[entityName].repo.save(changes as Achievement)
+          save: () => data[entityName].repo.create(changes as Achievement)
         })))
     })
   )
