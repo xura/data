@@ -34,8 +34,8 @@ const entity = <T>(model: ObjectType<T>): Entity<T> => {
 }
 
 const data = {
-    achievements: entity(Achievement),
-    users: entity(User)
+    achievements: entity<Achievement>(Achievement),
+    users: entity<User>(User)
 };
 
 export {
