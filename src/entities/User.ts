@@ -1,8 +1,9 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-import { FormComponent, TextInput } from '@xura/components';
+import { FormComponent } from '@xura/components';
+import ExternalResource from './ExternalResource';
 
 @Entity()
-export class User {
+export class User extends ExternalResource {
 
     @PrimaryGeneratedColumn()
     id?: number;
