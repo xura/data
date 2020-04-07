@@ -45,37 +45,27 @@ const aperture = (component, { entity }) => {
       const renderedForm = form.renderer(formSettings[1]);
       renderForm(renderedForm.container);
       const streams = form.changes(renderedForm.elements);
-      debugger;
       return streams.pipe(
-        map(changes => {
-          debugger;
-          return toProps({
-            entity: capitalCase(entityName),
-            save: () => data[entityName].repo.create(changes as Achievement)
-          })
-        }))
+        map(changes => toProps({
+          entity: capitalCase(entityName),
+          save: () => data[entityName].repo.create(changes as Achievement)
+        })))
     })
   )
 }
 
 
-const EntityForm = ({ entity, save, pushEvent }) => {
-  debugger;
-  return (
-    <div className={entityFormStyle}>
-      <h1>{entity}</h1>
-      <span id="entity-form"></span>
-      <xura-button styles={formSettings[1]} onClick={save}>
-        Save
+const EntityForm = ({ entity, save, pushEvent }) => (
+  <div className={entityFormStyle}>
+    <h1>{entity}</h1>
+    <span id="entity-form"></span>
+    <xura-button styles={formSettings[1]} onClick={save}>
+      Save
       </xura-button>
-    </div>
-  )
-}
+  </div>
+)
 
-const EntityFormWithEffects = () => {
-  debugger;
-  return withEffects(aperture)(EntityForm)
-}
+const EntityFormWithEffects = withEffects(aperture)(EntityForm)
 
 export default ({ entity }) =>
   <EntityFormWithEffects entity={entity} />

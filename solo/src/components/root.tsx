@@ -27,13 +27,17 @@ const aperture = component => merge(
         }))
     ),
     component.observe('activeTab').pipe(
-        flatMap(activeTab =>
-            from(data[activeTab.toString().toLowerCase()].repo.streamAll())
+        flatMap(activeTab => {
+            const d = data;
+            //debugger;
+            return from(data[activeTab.toString().toLowerCase()].repo.streamAll())
                 .pipe(flatMap((stream: Promise<any>) => stream),
                     map((evt: any) => ({
                         type: 'SET_ENTITIES',
                         state: evt
-                    }))))
+                    })))
+        })
+
     )
 )
 
@@ -58,22 +62,18 @@ const handler = ({ setActiveTab, activeTab, entities, setEntities }) => effect =
     }
 }
 
-const Root = withEffects(aperture, { handler })(({ activeTab, entities, setEntities }) => {
-    //const entityList = entities.map(entity => `${entity.id} | ${entity.title}`);
-    debugger;
-    return (
-        <xura-drawer ref={drawer} items={items} title="Xura | Data">
-            <span slot='content'>
-                <div style={{ width: '50%', float: 'left' }}>
-                    <Entity entity={activeTab} />
-                </div>
-                {/* <div style={{ width: '50%', float: 'right', height: '500px', overflow: 'scroll' }}>
+const Root = withEffects(aperture, { handler })(({ activeTab, entities, setEntities }) => (
+    <xura-drawer ref={drawer} items={items} title="Xura | Data">
+        <span slot='content'>
+            <div style={{ width: '50%', float: 'left' }}>
+                <Entity entity={activeTab} />
+            </div>
+            {/* <div style={{ width: '50%', float: 'right', height: '500px', overflow: 'scroll' }}>
                     <xura-list items={entityList}></xura-list>
                 </div> */}
-            </span>
-        </xura-drawer>
-    )
-})
+        </span>
+    </xura-drawer>
+))
 
 export default (state) => {
     const [activeTab, setActiveTab] =
