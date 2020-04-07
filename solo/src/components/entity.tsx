@@ -1,7 +1,7 @@
 import { h } from 'preact';
 import { withEffects, toProps } from 'refract-preact-rxjs'
 import { map, flatMap } from 'rxjs/operators'
-import { combineLatest } from 'rxjs';
+import { combineLatest, of } from 'rxjs';
 import { style } from "typestyle";
 import "regenerator-runtime/runtime";
 
@@ -44,18 +44,23 @@ const aperture = (component, { entity }) => {
       const form = data[entityName].form;
       const renderedForm = form.renderer(formSettings[1]);
       renderForm(renderedForm.container);
-
-      return form.changes(renderedForm.elements).pipe(
-        map(changes => toProps({
-          entity: capitalCase(entityName),
-          save: () => data[entityName].repo.create(changes as Achievement)
-        })))
+      const streams = form.changes(renderedForm.elements);
+      debugger;
+      return streams.pipe(
+        map(changes => {
+          debugger;
+          return toProps({
+            entity: capitalCase(entityName),
+            save: () => data[entityName].repo.create(changes as Achievement)
+          })
+        }))
     })
   )
 }
 
 
 const EntityForm = ({ entity, save, pushEvent }) => {
+  debugger;
   return (
     <div className={entityFormStyle}>
       <h1>{entity}</h1>
@@ -67,8 +72,10 @@ const EntityForm = ({ entity, save, pushEvent }) => {
   )
 }
 
-const EntityFormWithEffects =
-  withEffects(aperture)(EntityForm)
+const EntityFormWithEffects = () => {
+  debugger;
+  return withEffects(aperture)(EntityForm)
+}
 
 export default ({ entity }) =>
   <EntityFormWithEffects entity={entity} />
