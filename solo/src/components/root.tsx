@@ -27,17 +27,13 @@ const aperture = component => merge(
         }))
     ),
     component.observe('activeTab').pipe(
-        flatMap(activeTab => {
-            const d = data;
-            //debugger;
-            return from(data[activeTab.toString().toLowerCase()].repo.streamAll())
-                .pipe(flatMap((stream: Promise<any>) => stream),
-                    map((evt: any) => ({
-                        type: 'SET_ENTITIES',
-                        state: evt
-                    })))
-        })
-
+        flatMap(activeTab => from(data[activeTab.toString().toLowerCase()].repo.streamAll())
+            .pipe(flatMap((stream: Promise<any>) => stream),
+                map((evt: any) => ({
+                    type: 'SET_ENTITIES',
+                    state: evt
+                })))
+        )
     )
 )
 

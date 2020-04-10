@@ -1,12 +1,9 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 import { FormComponent } from '@xura/components';
-import ExternalResource from './ExternalResource';
+import { ExternalResource } from '@xura/emporium';
 
 @Entity()
 export class User extends ExternalResource {
-
-    @PrimaryGeneratedColumn()
-    id?: number;
 
     @FormComponent({
         label: 'First Name',
